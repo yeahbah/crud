@@ -35,7 +35,9 @@ namespace CrudDemo.Data.Models
 
         public DepartmentEntity Ref_Department { get; set; }
 
-        public ICollection<ProjectEntity> Ref_ProjectsCreated { get; set; }
+        public virtual ICollection<ProjectEntity> Ref_ProjectsCreated { get; set; }
+        
+        public virtual ICollection<EmployeeProjectEntity> Ref_Projects { get; set; }
         
     }
 }

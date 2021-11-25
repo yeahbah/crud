@@ -16,6 +16,8 @@ namespace CrudDemo.Data.Models
         [Required]
         [MaxLength(100)]
         public string Name { get; set; }
+        
+        public ushort? IsDeleted { get; set; }
 
         public ICollection<EmployeeEntity> Ref_ManyEmployees { get; set; }
     }

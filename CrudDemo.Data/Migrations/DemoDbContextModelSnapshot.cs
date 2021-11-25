@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
+#nullable disable
+
 namespace CrudDemo.Data.Migrations
 {
     [DbContext(typeof(DemoDbContext))]
@@ -15,15 +17,19 @@ namespace CrudDemo.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.12")
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("ProductVersion", "6.0.0")
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
             modelBuilder.Entity("CrudDemo.Data.Models.DepartmentEntity", b =>
                 {
                     b.Property<string>("DepartmentCode")
                         .HasMaxLength(5)
                         .HasColumnType("nvarchar(5)");
+
+                    b.Property<int?>("IsDeleted")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -98,6 +104,29 @@ namespace CrudDemo.Data.Migrations
                     b.ToTable("Employee");
                 });
 
+            modelBuilder.Entity("CrudDemo.Data.Models.EmployeeProjectEntity", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<Guid>("EmployeeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ProjectId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.HasIndex("ProjectId");
+
+                    b.ToTable("EmployeeProject");
+                });
+
             modelBuilder.Entity("CrudDemo.Data.Models.ProjectEntity", b =>
                 {
                     b.Property<Guid>("ProjectId")
@@ -110,6 +139,12 @@ namespace CrudDemo.Data.Migrations
                     b.Property<DateTime>("CreatedTimestamp")
                         .HasColumnType("datetime2");
 
+                    b.Property<Guid?>("EmployeeEntityId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int?>("IsDeleted")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -117,22 +152,9 @@ namespace CrudDemo.Data.Migrations
 
                     b.HasKey("ProjectId");
 
+                    b.HasIndex("EmployeeEntityId");
+
                     b.ToTable("Project");
-                });
-
-            modelBuilder.Entity("EmployeeEntityProjectEntity", b =>
-                {
-                    b.Property<Guid>("Ref_EmployeesId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("Ref_ProjectsCreatedProjectId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Ref_EmployeesId", "Ref_ProjectsCreatedProjectId");
-
-                    b.HasIndex("Ref_ProjectsCreatedProjectId");
-
-                    b.ToTable("EmployeeEntityProjectEntity");
                 });
 
             modelBuilder.Entity("CrudDemo.Data.Models.EmployeeEntity", b =>
@@ -146,24 +168,47 @@ namespace CrudDemo.Data.Migrations
                     b.Navigation("Ref_Department");
                 });
 
-            modelBuilder.Entity("EmployeeEntityProjectEntity", b =>
+            modelBuilder.Entity("CrudDemo.Data.Models.EmployeeProjectEntity", b =>
                 {
-                    b.HasOne("CrudDemo.Data.Models.EmployeeEntity", null)
-                        .WithMany()
-                        .HasForeignKey("Ref_EmployeesId")
+                    b.HasOne("CrudDemo.Data.Models.EmployeeEntity", "Ref_Employee")
+                        .WithMany("Ref_Projects")
+                        .HasForeignKey("EmployeeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CrudDemo.Data.Models.ProjectEntity", null)
-                        .WithMany()
-                        .HasForeignKey("Ref_ProjectsCreatedProjectId")
+                    b.HasOne("CrudDemo.Data.Models.ProjectEntity", "Ref_Project")
+                        .WithMany("Ref_Employees")
+                        .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Ref_Employee");
+
+                    b.Navigation("Ref_Project");
+                });
+
+            modelBuilder.Entity("CrudDemo.Data.Models.ProjectEntity", b =>
+                {
+                    b.HasOne("CrudDemo.Data.Models.EmployeeEntity", null)
+                        .WithMany("Ref_ProjectsCreated")
+                        .HasForeignKey("EmployeeEntityId");
                 });
 
             modelBuilder.Entity("CrudDemo.Data.Models.DepartmentEntity", b =>
                 {
                     b.Navigation("Ref_ManyEmployees");
+                });
+
+            modelBuilder.Entity("CrudDemo.Data.Models.EmployeeEntity", b =>
+                {
+                    b.Navigation("Ref_Projects");
+
+                    b.Navigation("Ref_ProjectsCreated");
+                });
+
+            modelBuilder.Entity("CrudDemo.Data.Models.ProjectEntity", b =>
+                {
+                    b.Navigation("Ref_Employees");
                 });
 #pragma warning restore 612, 618
         }

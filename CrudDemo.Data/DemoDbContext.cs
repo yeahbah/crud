@@ -23,6 +23,10 @@ namespace CrudDemo.Data
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<EmployeeEntity>()
+                .HasMany(employee => employee.Ref_Projects)
+                .WithOne(project => project.Ref_Employee);
+
+            modelBuilder.Entity<EmployeeEntity>()
                 .HasOne(employee => employee.Ref_Department)
                 .WithMany(department => department.Ref_ManyEmployees)
                 .HasForeignKey(employee => employee.DepartmentCode);
@@ -49,7 +53,12 @@ namespace CrudDemo.Data
                         DepartmentCode = "SUP",
                         Name = "Tech Support"
                     }
-                );            
+                );
+
+            modelBuilder.Entity<ProjectEntity>()
+                .HasMany(project => project.Ref_Employees)
+                .WithOne(employee => employee.Ref_Project);
+
         }
 
         public DbSet<EmployeeEntity> Employees { get; set; }

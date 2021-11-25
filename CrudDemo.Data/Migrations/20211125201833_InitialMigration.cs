@@ -1,9 +1,11 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
+#nullable disable
+
 namespace CrudDemo.Data.Migrations
 {
-    public partial class InitialMigrations : Migration
+    public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -12,25 +14,12 @@ namespace CrudDemo.Data.Migrations
                 columns: table => new
                 {
                     DepartmentCode = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    IsDeleted = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Department", x => x.DepartmentCode);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Project",
-                columns: table => new
-                {
-                    ProjectId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    CreatedTimestamp = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Project", x => x.ProjectId);
                 });
 
             migrationBuilder.CreateTable(
@@ -58,24 +47,47 @@ namespace CrudDemo.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "EmployeeEntityProjectEntity",
+                name: "Project",
                 columns: table => new
                 {
-                    Ref_EmployeesId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Ref_ProjectsCreatedProjectId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    ProjectId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    CreatedTimestamp = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsDeleted = table.Column<int>(type: "int", nullable: true),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    EmployeeEntityId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_EmployeeEntityProjectEntity", x => new { x.Ref_EmployeesId, x.Ref_ProjectsCreatedProjectId });
+                    table.PrimaryKey("PK_Project", x => x.ProjectId);
                     table.ForeignKey(
-                        name: "FK_EmployeeEntityProjectEntity_Employee_Ref_EmployeesId",
-                        column: x => x.Ref_EmployeesId,
+                        name: "FK_Project_Employee_EmployeeEntityId",
+                        column: x => x.EmployeeEntityId,
+                        principalTable: "Employee",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "EmployeeProject",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    EmployeeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ProjectId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EmployeeProject", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_EmployeeProject_Employee_EmployeeId",
+                        column: x => x.EmployeeId,
                         principalTable: "Employee",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_EmployeeEntityProjectEntity_Project_Ref_ProjectsCreatedProjectId",
-                        column: x => x.Ref_ProjectsCreatedProjectId,
+                        name: "FK_EmployeeProject_Project_ProjectId",
+                        column: x => x.ProjectId,
                         principalTable: "Project",
                         principalColumn: "ProjectId",
                         onDelete: ReferentialAction.Cascade);
@@ -83,13 +95,13 @@ namespace CrudDemo.Data.Migrations
 
             migrationBuilder.InsertData(
                 table: "Department",
-                columns: new[] { "DepartmentCode", "Name" },
+                columns: new[] { "DepartmentCode", "IsDeleted", "Name" },
                 values: new object[,]
                 {
-                    { "IT", "Information Technology" },
-                    { "SALES", "Sales" },
-                    { "AD", "Advertising" },
-                    { "SUP", "Tech Support" }
+                    { "AD", null, "Advertising" },
+                    { "IT", null, "Information Technology" },
+                    { "SALES", null, "Sales" },
+                    { "SUP", null, "Tech Support" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -98,21 +110,31 @@ namespace CrudDemo.Data.Migrations
                 column: "DepartmentCode");
 
             migrationBuilder.CreateIndex(
-                name: "IX_EmployeeEntityProjectEntity_Ref_ProjectsCreatedProjectId",
-                table: "EmployeeEntityProjectEntity",
-                column: "Ref_ProjectsCreatedProjectId");
+                name: "IX_EmployeeProject_EmployeeId",
+                table: "EmployeeProject",
+                column: "EmployeeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EmployeeProject_ProjectId",
+                table: "EmployeeProject",
+                column: "ProjectId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Project_EmployeeEntityId",
+                table: "Project",
+                column: "EmployeeEntityId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "EmployeeEntityProjectEntity");
-
-            migrationBuilder.DropTable(
-                name: "Employee");
+                name: "EmployeeProject");
 
             migrationBuilder.DropTable(
                 name: "Project");
+
+            migrationBuilder.DropTable(
+                name: "Employee");
 
             migrationBuilder.DropTable(
                 name: "Department");
