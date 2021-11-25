@@ -26,6 +26,8 @@
     <Folder Include="Employee\Commands\" />
     <Folder Include="Employee\Commands\Validation\" />
     <Folder Include="Dtos\" />
+    <Folder Include="Project\Commands" />
+    <Folder Include="Project\Queries" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />

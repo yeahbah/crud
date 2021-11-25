@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using CrudDemo.Data.Models;
 using Microsoft.EntityFrameworkCore;
@@ -26,7 +24,7 @@ namespace CrudDemo.Data.Services.Internal
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                this.logger.LogError(e, $"{typeof(ProjectRepository)} All() function error");
                 return new List<ProjectEntity>();
             }
         }
@@ -46,7 +44,25 @@ namespace CrudDemo.Data.Services.Internal
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                this.logger.LogError(e, $"{typeof(ProjectRepository)} Upsert() function error.");
+                return false;
+            }
+        }
+
+        public override async Task<bool> Delete(Guid id)
+        {
+            try
+            {
+                var project = await dbSet.FirstOrDefaultAsync(x => x.ProjectId == id);
+                if (project == null) return false;
+
+                project.IsDeleted = 1;
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                this.logger.LogError(e, $"{typeof(ProjectRepository)} Delete() function error.");
                 return false;
             }
         }

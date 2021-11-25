@@ -15,9 +15,11 @@ namespace CrudDemo.Data.Services.Internal
             this.logger = loggerFactory.CreateLogger("logs");
 
             Employee = new EmployeeRepository(dbContext, this.logger);
+            Project = new ProjectRepository(dbContext, this.logger);
         }
 
         public IEmployeeRepository Employee { get; private set; }
+        public IProjectRepository Project { get; private set; }
 
         public async Task CompleteAsync()
         {
