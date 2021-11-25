@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CrudDemo.Data.Migrations
 {
     [DbContext(typeof(DemoDbContext))]
-    [Migration("20211125201833_InitialMigration")]
+    [Migration("20211125215554_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -108,21 +108,13 @@ namespace CrudDemo.Data.Migrations
 
             modelBuilder.Entity("CrudDemo.Data.Models.EmployeeProjectEntity", b =>
                 {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
-
                     b.Property<Guid>("EmployeeId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("ProjectId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("EmployeeId");
+                    b.HasKey("EmployeeId", "ProjectId");
 
                     b.HasIndex("ProjectId");
 
@@ -141,9 +133,6 @@ namespace CrudDemo.Data.Migrations
                     b.Property<DateTime>("CreatedTimestamp")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid?>("EmployeeEntityId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<int?>("IsDeleted")
                         .HasColumnType("int");
 
@@ -152,9 +141,13 @@ namespace CrudDemo.Data.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.HasKey("ProjectId");
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.HasIndex("EmployeeEntityId");
+                    b.Property<DateTime?>("UpdatedTimestamp")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("ProjectId");
 
                     b.ToTable("Project");
                 });
@@ -189,13 +182,6 @@ namespace CrudDemo.Data.Migrations
                     b.Navigation("Ref_Project");
                 });
 
-            modelBuilder.Entity("CrudDemo.Data.Models.ProjectEntity", b =>
-                {
-                    b.HasOne("CrudDemo.Data.Models.EmployeeEntity", null)
-                        .WithMany("Ref_ProjectsCreated")
-                        .HasForeignKey("EmployeeEntityId");
-                });
-
             modelBuilder.Entity("CrudDemo.Data.Models.DepartmentEntity", b =>
                 {
                     b.Navigation("Ref_ManyEmployees");
@@ -204,8 +190,6 @@ namespace CrudDemo.Data.Migrations
             modelBuilder.Entity("CrudDemo.Data.Models.EmployeeEntity", b =>
                 {
                     b.Navigation("Ref_Projects");
-
-                    b.Navigation("Ref_ProjectsCreated");
                 });
 
             modelBuilder.Entity("CrudDemo.Data.Models.ProjectEntity", b =>

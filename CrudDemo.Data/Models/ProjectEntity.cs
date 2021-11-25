@@ -18,13 +18,15 @@ namespace CrudDemo.Data.Models
 
         [Required]
         public DateTime CreatedTimestamp { get; set; }
-        
-        public ushort? IsDeleted { get; set; }
-
+       
         [Required]
         public Guid CreatedBy { get; set; }
 
-        public ICollection<EmployeeProjectEntity> Ref_Employees { get; set; }
+        public ushort? IsDeleted { get; set; }
         
+        public DateTime? UpdatedTimestamp { get; set; }
+        public Guid? UpdatedBy { get; set; }
+
+        public virtual ICollection<EmployeeProjectEntity> Ref_Employees { get; set; }
     }
 }

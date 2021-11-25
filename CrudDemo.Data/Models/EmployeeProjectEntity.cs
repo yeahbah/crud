@@ -9,9 +9,6 @@ namespace CrudDemo.Data.Models
     [Table("EmployeeProject")]
     public class EmployeeProjectEntity
     {
-        [Key]
-        public long Id { get; set; }
-        
         [Required]
         [ForeignKey(nameof(Ref_Employee))]
         public Guid EmployeeId { get; set; }

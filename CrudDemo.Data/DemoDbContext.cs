@@ -21,15 +21,25 @@ namespace CrudDemo.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
-            modelBuilder.Entity<EmployeeEntity>()
-                .HasMany(employee => employee.Ref_Projects)
-                .WithOne(project => project.Ref_Employee);
-
+            
             modelBuilder.Entity<EmployeeEntity>()
                 .HasOne(employee => employee.Ref_Department)
                 .WithMany(department => department.Ref_ManyEmployees)
                 .HasForeignKey(employee => employee.DepartmentCode);
+
+            // many-to-many navigation, Employee/Project
+            // EF 6 can do this automatically for you but
+            // I don't like the generated db objects
+            modelBuilder.Entity<EmployeeProjectEntity>()
+                .HasKey(key => new {key.EmployeeId, key.ProjectId});
+            modelBuilder.Entity<EmployeeProjectEntity>()
+                .HasOne(employee => employee.Ref_Employee)
+                .WithMany(employee => employee.Ref_Projects)
+                .HasForeignKey(employee => employee.EmployeeId);
+            modelBuilder.Entity<EmployeeProjectEntity>()
+                .HasOne(project => project.Ref_Project)
+                .WithMany(project => project.Ref_Employees)
+                .HasForeignKey(project => project.ProjectId);
 
             modelBuilder.Entity<DepartmentEntity>()
                 .HasData(
@@ -54,11 +64,6 @@ namespace CrudDemo.Data
                         Name = "Tech Support"
                     }
                 );
-
-            modelBuilder.Entity<ProjectEntity>()
-                .HasMany(project => project.Ref_Employees)
-                .WithOne(employee => employee.Ref_Project);
-
         }
 
         public DbSet<EmployeeEntity> Employees { get; set; }

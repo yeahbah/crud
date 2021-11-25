@@ -11,6 +11,8 @@ namespace CrudDemo.App.Mappings
             // Source -> Target
             CreateMap<EmployeeCreateDto, EmployeeEntity>();
             CreateMap<EmployeeEntity, EmployeeReadDto>();
+            CreateMap<ProjectCreateDto, ProjectEntity>();
+            CreateMap<ProjectEntity, ProjectReadDto>();
         }
     }
 }
