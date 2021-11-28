@@ -21,10 +21,7 @@
   <ItemGroup>
     <Folder Include="PipelineBehaviors\" />
     <Folder Include="Mappings\" />
-    <Folder Include="Employee\" />
     <Folder Include="Employee\Queries\" />
-    <Folder Include="Employee\Commands\" />
-    <Folder Include="Employee\Commands\Validation\" />
     <Folder Include="Dtos\" />
   </ItemGroup>
   <ItemGroup>

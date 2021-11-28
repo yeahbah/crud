@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using CrudDemo.Data.Models;
 using Microsoft.EntityFrameworkCore;
@@ -24,6 +25,7 @@ namespace CrudDemo.Data.Services.Internal
             {
                 return await this.dbContext.Projects
                     .Include(project => project.Ref_CreatedByEmployee)
+                    .Where(project => project.IsDeleted != 1)
                     .ToListAsync();
             }
             catch (Exception e)
@@ -33,12 +35,21 @@ namespace CrudDemo.Data.Services.Internal
             }
         }
 
+        public override async Task<ProjectEntity> GetById(Guid id)
+        {
+            return await this.dbContext.Projects
+                .Include(project => project.Ref_CreatedByEmployee)
+                .FirstOrDefaultAsync(project => project.ProjectId == id && project.IsDeleted != 1);
+
+        }
+
         public override async Task<bool> Upsert(ProjectEntity entity)
         {
             try
             {
                 var existingProject = await dbSet
-                    .FirstOrDefaultAsync(x => x.ProjectId == entity.ProjectId);
+                    .FirstOrDefaultAsync(x => x.ProjectId == entity.ProjectId && x.IsDeleted != 1);
+
                 if (existingProject == null)
                     return await Add(entity);
 
@@ -57,7 +68,9 @@ namespace CrudDemo.Data.Services.Internal
         {
             try
             {
-                var project = await dbSet.FirstOrDefaultAsync(x => x.ProjectId == id);
+                var project = await dbSet
+                    .FirstOrDefaultAsync(x => x.ProjectId == id);
+
                 if (project == null) return false;
 
                 project.IsDeleted = 1;

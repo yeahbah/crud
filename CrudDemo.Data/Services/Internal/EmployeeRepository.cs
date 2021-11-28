@@ -21,7 +21,9 @@ namespace CrudDemo.Data.Services.Internal
         {
             try
             {
-                return await dbSet.ToListAsync();
+                return await dbSet
+                    .Where(employee => employee.IsDeleted != 1)
+                    .ToListAsync();
             }
             catch (Exception ex)
             {
@@ -30,11 +32,18 @@ namespace CrudDemo.Data.Services.Internal
             }
         }
 
+        public override async Task<EmployeeEntity> GetById(Guid id)
+        {
+            return await this.dbSet
+                .FirstOrDefaultAsync(employee => employee.EmployeeId == id && employee.IsDeleted != 1);
+        }
+
         public override async Task<bool> Upsert(EmployeeEntity entity)
         {
             try
             {
-                var existingUser = await dbSet.Where(x => x.EmployeeId == entity.EmployeeId)
+                var existingUser = await dbSet
+                    .Where(x => x.EmployeeId == entity.EmployeeId && entity.IsDeleted != 1)
                     .FirstOrDefaultAsync();
                 if (existingUser == null)
                     return await Add(entity);
@@ -57,7 +66,8 @@ namespace CrudDemo.Data.Services.Internal
         {
             try
             {
-                var employee = await dbSet.Where(x => x.EmployeeId == id)
+                var employee = await dbSet
+                    .Where(x => x.EmployeeId == id && x.IsDeleted != 1)
                     .FirstOrDefaultAsync();
 
                 if (employee == null) return false;

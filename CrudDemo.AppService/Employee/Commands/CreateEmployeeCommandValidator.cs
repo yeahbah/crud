@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace CrudDemo.App.Employee.Commands.Validation
+namespace CrudDemo.App.Employee.Commands
 {
     public class CreateEmployeeCommandValidator : AbstractValidator<CreateEmployeeCommand>
     {

@@ -11,11 +11,11 @@ namespace CrudDemo.Web.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProjectApiController : ControllerBase
+    public class ProjectController : ControllerBase
     {
         private readonly IMediator mediator;
 
-        public ProjectApiController(IMediator mediator)
+        public ProjectController(IMediator mediator)
         {
             this.mediator = mediator;
         }
@@ -31,20 +31,26 @@ namespace CrudDemo.Web.Controllers
         public async Task<IActionResult> GetProjectById(Guid id, CancellationToken cancellationToken)
         {
             var result = await this.mediator.Send(new GetProjectByIdQuery(id), cancellationToken);
-            return Ok(result);
+            if (result != null)
+                return Ok(result);
+
+            return NotFound();
         }
 
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]ProjectCreateDto projectCreateDto, CancellationToken cancellationToken)
         {
-            if (ModelState.IsValid)
-            {
-                var result = await this.mediator.Send(new CreateProjectCommand(projectCreateDto), cancellationToken);
+            
+            var result = await this.mediator.Send(new CreateProjectCommand(projectCreateDto), cancellationToken);
 
-                return CreatedAtRoute(nameof(GetProjectById), new { Id = result.ProjectId }, result);
-            }
+            return CreatedAtRoute(nameof(GetProjectById), new { Id = result.ProjectId }, result);
+        }
 
-            return new JsonResult("Something went wrong.") { StatusCode = 500 };
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
+        {
+            var result = await this.mediator.Send(new DeleteProjectCommand(id), cancellationToken);
+            return NoContent();
         }
     }
 }

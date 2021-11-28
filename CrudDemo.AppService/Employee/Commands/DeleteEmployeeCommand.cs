@@ -22,11 +22,6 @@ namespace CrudDemo.App.Employee.Commands
 
         public async Task<Unit> Handle(DeleteEmployeeCommand request, CancellationToken cancellationToken)
         {
-            //var employe = await this.unitOfWork.Employee.GetById(request.Id);
-            //if (employe == null)
-            //{
-            //    return BadRequest
-            //}
             if (await this.crudDataService.Employee.Delete(request.Id))
             {
                 await this.crudDataService.CompleteAsync();
