@@ -41,13 +41,13 @@ namespace CrudDemo.Controllers
         public async Task<IActionResult> CreateEmployee([FromBody]EmployeeCreateDto newEmployee, CancellationToken cancellationToken)
         {
             var result = await this.mediator.Send(new CreateEmployeeCommand(newEmployee), cancellationToken);
-            return CreatedAtRoute(nameof(GetEmployeeById), new { result.Id }, result);
+            return CreatedAtRoute(nameof(GetEmployeeById), new { Id = result.EmployeeId }, result);
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteEmployee(Guid id, CancellationToken cancellationToken)
         {
-            await this.mediator.Send(new DeleteEmployeeCommand { Id = id }, cancellationToken);
+            await this.mediator.Send(new DeleteEmployeeCommand(id), cancellationToken);
             return NoContent();
         }
     }

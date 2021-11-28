@@ -6,12 +6,9 @@ using System.Threading.Tasks;
 
 namespace CrudDemo.App.Project.Commands
 {
-    public record DeleteProjectCommand(Guid id) : IRequest<Unit>
-    {
-        
-    }
-
-    public class DeleteProjectCommandHandler : IRequestHandler<DeleteProjectCommand, Unit>
+    public record DeleteProjectCommand(Guid id) : IRequest;
+   
+    public class DeleteProjectCommandHandler : IRequestHandler<DeleteProjectCommand>
     {
         private readonly ICrudDataService crudDataService;
 

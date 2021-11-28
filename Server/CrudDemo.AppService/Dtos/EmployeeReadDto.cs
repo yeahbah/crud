@@ -4,7 +4,7 @@ namespace CrudDemo.App.Dtos
 {
     public record EmployeeReadDto
     {
-        public Guid Id { get; init; }
+        public Guid EmployeeId { get; init; }
         public string FirstName { get; init; }
         public string LastName { get; init; }
         public string Email { get; init; }
