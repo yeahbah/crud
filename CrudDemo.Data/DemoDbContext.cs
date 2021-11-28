@@ -1,5 +1,5 @@
 ﻿using System;
-using CrudDemo.Data.Models.Entities;
+using CrudDemo.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 

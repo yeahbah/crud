@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using CrudDemo.Data.Models.Entities;
+using CrudDemo.Data.Models;
 
 namespace CrudDemo.Data.Services
 {

@@ -1,4 +1,4 @@
-﻿using CrudDemo.Data.Models.Entities;
+﻿using CrudDemo.Data.Models;
 using System;
 namespace CrudDemo.Data.Services
 {

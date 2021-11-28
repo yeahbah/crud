@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using CrudDemo.App.Dtos;
-using CrudDemo.Data.Models.Entities;
+using CrudDemo.Data.Models;
 using CrudDemo.Data.Services;
 using MediatR;
 using System;

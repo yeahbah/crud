@@ -7,7 +7,7 @@ using CrudDemo.App.Employee.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace UnitOfWorkDemo.Controllers
+namespace CrudDemo.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

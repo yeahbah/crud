@@ -4,7 +4,7 @@ using MediatR;
 using CrudDemo.Data.Services;
 using AutoMapper;
 using CrudDemo.App.Dtos;
-using CrudDemo.Data.Models.Entities;
+using CrudDemo.Data.Models;
 
 namespace CrudDemo.App.Employee.Commands
 {
