@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using CrudDemo.Data.Models;
+using CrudDemo.Data.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -9,10 +9,12 @@ namespace CrudDemo.Data.Services.Internal
 {
     internal class ProjectRepository : GenericRepository<ProjectEntity>, IProjectRepository
     {
+        private readonly DemoDbContext dbContext;
         private readonly ILogger logger;
 
-        public ProjectRepository(DemoDbContext dbContext, ILogger logger) : base(dbContext, logger)
+        public ProjectRepository(DemoDbContext dbContext, ILogger<IProjectRepository> logger) : base(dbContext, logger)
         {
+            this.dbContext = dbContext;
             this.logger = logger;
         }
 
@@ -20,7 +22,9 @@ namespace CrudDemo.Data.Services.Internal
         {
             try
             {
-                return await dbSet.ToListAsync();
+                return await this.dbContext.Projects
+                    .Include(project => project.Ref_CreatedByEmployee)
+                    .ToListAsync();
             }
             catch (Exception e)
             {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CrudDemo.Data.Models;
+using CrudDemo.Data.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -12,7 +12,7 @@ namespace CrudDemo.Data.Services.Internal
     {
         private readonly ILogger logger;
 
-        public EmployeeRepository(DemoDbContext dbContext, ILogger logger) : base(dbContext, logger)
+        public EmployeeRepository(DemoDbContext dbContext, ILogger<IEmployeeRepository> logger) : base(dbContext, logger)
         {
             this.logger = logger;
         }
@@ -34,7 +34,7 @@ namespace CrudDemo.Data.Services.Internal
         {
             try
             {
-                var existingUser = await dbSet.Where(x => x.Id == entity.Id)
+                var existingUser = await dbSet.Where(x => x.EmployeeId == entity.EmployeeId)
                     .FirstOrDefaultAsync();
                 if (existingUser == null)
                     return await Add(entity);
@@ -57,7 +57,7 @@ namespace CrudDemo.Data.Services.Internal
         {
             try
             {
-                var employee = await dbSet.Where(x => x.Id == id)
+                var employee = await dbSet.Where(x => x.EmployeeId == id)
                     .FirstOrDefaultAsync();
 
                 if (employee == null) return false;

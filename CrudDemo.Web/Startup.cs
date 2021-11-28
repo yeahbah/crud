@@ -20,6 +20,7 @@ namespace UnitOfWorkDemo
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddLogging();
             services.AddAppServices(Configuration);
             services.AddSwaggerGen();
         }

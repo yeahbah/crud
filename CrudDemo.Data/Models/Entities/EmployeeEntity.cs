@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace CrudDemo.Data.Models
+namespace CrudDemo.Data.Models.Entities
 {
     [Table("Employee")]
     public class EmployeeEntity
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid Id { get; set; }
+        public Guid EmployeeId { get; set; }
 
         [Required]
         [MaxLength(30)]
@@ -28,7 +28,7 @@ namespace CrudDemo.Data.Models
 
         public DateTime BirthDate { get; set; }
 
-        [Required]        
+        [Required]
         public string DepartmentCode { get; set; }
 
         public ushort? IsDeleted { get; set; }
@@ -36,6 +36,8 @@ namespace CrudDemo.Data.Models
         public DepartmentEntity Ref_Department { get; set; }
 
         public virtual ICollection<EmployeeProjectEntity> Ref_Projects { get; set; }
-        
+
+        public virtual ICollection<ProjectEntity> Ref_CreatedProjects { get; set; }
+
     }
 }

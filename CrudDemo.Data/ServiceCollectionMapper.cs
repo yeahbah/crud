@@ -12,6 +12,8 @@ namespace CrudDemo.Data
         {
             return services
                 .AddDbContext<DemoDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("CrudDemoConn")))
+                .AddScoped<IEmployeeRepository, EmployeeRepository>()
+                .AddScoped<IProjectRepository, ProjectRepository>()
                 .AddScoped<ICrudDataService, CrudDataService>();
         }
     }

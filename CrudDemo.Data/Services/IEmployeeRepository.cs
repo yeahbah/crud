@@ -1,5 +1,5 @@
 ﻿using System;
-using CrudDemo.Data.Models;
+using CrudDemo.Data.Models.Entities;
 
 namespace CrudDemo.Data.Services
 {

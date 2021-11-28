@@ -1,10 +1,10 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using CrudDemo.Data.Models;
 using CrudDemo.Data.Services;
 using AutoMapper;
 using CrudDemo.App.Dtos;
+using CrudDemo.Data.Models.Entities;
 
 namespace CrudDemo.App.Employee.Commands
 {

@@ -1,9 +1,11 @@
-﻿using System;
+﻿using CrudDemo.Data.Models.Entities;
+using Microsoft.Extensions.Logging;
+using System;
 namespace CrudDemo.Data.Services.Internal
 {
-    public class DepartmentRepository
+    internal class DepartmentRepository : GenericRepository<DepartmentEntity>, IDepartmentRepository
     {
-        public DepartmentRepository()
+        public DepartmentRepository(DemoDbContext dbContext, ILogger logger) : base(dbContext, logger)
         {
         }
     }

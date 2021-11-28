@@ -1,7 +1,9 @@
-﻿namespace CrudDemo.App.Dtos
+﻿using System;
+
+namespace CrudDemo.App.Dtos
 {
     public class ProjectCreateDto
     {
-        
+        public string Name { get; set; }
     }
 }

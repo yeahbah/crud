@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace CrudDemo.Data.Models
+namespace CrudDemo.Data.Models.Entities
 {
     [Table("EmployeeProject")]
     public class EmployeeProjectEntity
@@ -12,7 +12,7 @@ namespace CrudDemo.Data.Models
         [Required]
         [ForeignKey(nameof(Ref_Employee))]
         public Guid EmployeeId { get; set; }
-        
+
         [Required]
         [ForeignKey(nameof(Ref_Project))]
         public Guid ProjectId { get; set; }

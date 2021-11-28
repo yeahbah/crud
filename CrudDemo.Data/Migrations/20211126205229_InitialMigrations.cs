@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CrudDemo.Data.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class InitialMigrations : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -23,27 +23,10 @@ namespace CrudDemo.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Project",
-                columns: table => new
-                {
-                    ProjectId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    CreatedTimestamp = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    IsDeleted = table.Column<int>(type: "int", nullable: true),
-                    UpdatedTimestamp = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Project", x => x.ProjectId);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Employee",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    EmployeeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
@@ -54,13 +37,35 @@ namespace CrudDemo.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Employee", x => x.Id);
+                    table.PrimaryKey("PK_Employee", x => x.EmployeeId);
                     table.ForeignKey(
                         name: "FK_Employee_Department_DepartmentCode",
                         column: x => x.DepartmentCode,
                         principalTable: "Department",
                         principalColumn: "DepartmentCode",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Project",
+                columns: table => new
+                {
+                    ProjectId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    CreatedTimestamp = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedByEmployeeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    IsDeleted = table.Column<int>(type: "int", nullable: true),
+                    UpdatedTimestamp = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UpdatedByEmployeeId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Project", x => x.ProjectId);
+                    table.ForeignKey(
+                        name: "FK_Project_Employee_CreatedByEmployeeId",
+                        column: x => x.CreatedByEmployeeId,
+                        principalTable: "Employee",
+                        principalColumn: "EmployeeId");
                 });
 
             migrationBuilder.CreateTable(
@@ -77,7 +82,7 @@ namespace CrudDemo.Data.Migrations
                         name: "FK_EmployeeProject_Employee_EmployeeId",
                         column: x => x.EmployeeId,
                         principalTable: "Employee",
-                        principalColumn: "Id",
+                        principalColumn: "EmployeeId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_EmployeeProject_Project_ProjectId",
@@ -107,6 +112,11 @@ namespace CrudDemo.Data.Migrations
                 name: "IX_EmployeeProject_ProjectId",
                 table: "EmployeeProject",
                 column: "ProjectId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Project_CreatedByEmployeeId",
+                table: "Project",
+                column: "CreatedByEmployeeId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -115,10 +125,10 @@ namespace CrudDemo.Data.Migrations
                 name: "EmployeeProject");
 
             migrationBuilder.DropTable(
-                name: "Employee");
+                name: "Project");
 
             migrationBuilder.DropTable(
-                name: "Project");
+                name: "Employee");
 
             migrationBuilder.DropTable(
                 name: "Department");

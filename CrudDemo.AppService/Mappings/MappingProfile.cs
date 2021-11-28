@@ -1,6 +1,6 @@
 using AutoMapper;
 using CrudDemo.App.Dtos;
-using CrudDemo.Data.Models;
+using CrudDemo.Data.Models.Entities;
 
 namespace CrudDemo.App.Mappings
 {
@@ -12,7 +12,9 @@ namespace CrudDemo.App.Mappings
             CreateMap<EmployeeCreateDto, EmployeeEntity>();
             CreateMap<EmployeeEntity, EmployeeReadDto>();
             CreateMap<ProjectCreateDto, ProjectEntity>();
-            CreateMap<ProjectEntity, ProjectReadDto>();
+            CreateMap<ProjectEntity, ProjectReadDto>()
+                .ForMember(x => x.CreatedByEmployeeName, opt => opt.MapFrom(src => src.Ref_CreatedByEmployee.FirstName + " " + src.Ref_CreatedByEmployee.LastName));
+
         }
     }
 }

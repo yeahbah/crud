@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace CrudDemo.Data.Models
+namespace CrudDemo.Data.Models.Entities
 {
     [Table("Department")]
     public class DepartmentEntity
@@ -16,7 +16,7 @@ namespace CrudDemo.Data.Models
         [Required]
         [MaxLength(100)]
         public string Name { get; set; }
-        
+
         public ushort? IsDeleted { get; set; }
 
         public ICollection<EmployeeEntity> Ref_ManyEmployees { get; set; }

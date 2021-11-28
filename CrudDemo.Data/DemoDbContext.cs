@@ -1,5 +1,5 @@
 ﻿using System;
-using CrudDemo.Data.Models;
+using CrudDemo.Data.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
@@ -26,6 +26,7 @@ namespace CrudDemo.Data
                 .HasOne(employee => employee.Ref_Department)
                 .WithMany(department => department.Ref_ManyEmployees)
                 .HasForeignKey(employee => employee.DepartmentCode);
+           
 
             // many-to-many navigation, Employee/Project
             // EF 6 can do this automatically for you but
@@ -38,8 +39,14 @@ namespace CrudDemo.Data
                 .HasForeignKey(employee => employee.EmployeeId);
             modelBuilder.Entity<EmployeeProjectEntity>()
                 .HasOne(project => project.Ref_Project)
-                .WithMany(project => project.Ref_Employees)
+                .WithMany(project => project.Ref_ManyEmployees)
                 .HasForeignKey(project => project.ProjectId);
+
+            modelBuilder.Entity<ProjectEntity>()
+                 .HasOne(project => project.Ref_CreatedByEmployee)
+                 .WithMany(employee => employee.Ref_CreatedProjects)
+                 .HasForeignKey(project => project.CreatedByEmployeeId)
+                 .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<DepartmentEntity>()
                 .HasData(
