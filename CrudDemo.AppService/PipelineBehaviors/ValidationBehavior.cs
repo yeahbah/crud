@@ -1,15 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using FluentValidation;
+using MediatR;
+using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using FluentValidation;
-using MediatR;
+using ValidationException = CrudDemo.App.Exceptions.ValidationException;
 
 namespace CrudDemo.App.PipelineBehaviors
 {
     public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
-        where TResponse : BaseResponse, new()
+        where TResponse : class
         where TRequest : IRequest<TResponse>
     {
         private readonly IEnumerable<IValidator<TRequest>> validators;
@@ -21,20 +21,27 @@ namespace CrudDemo.App.PipelineBehaviors
 
         public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
         {
+            if (!validators.Any())
+            {
+                return await next();
+            }
             var context = new ValidationContext<TRequest>(request);
-            var failures = this.validators
+            var errorsDictionary = validators
                 .Select(x => x.Validate(context))
                 .SelectMany(x => x.Errors)
                 .Where(x => x != null)
-                .ToList();
-
-            if (failures.Any())
+                .GroupBy(
+                    x => x.PropertyName,
+                    x => x.ErrorMessage,
+                    (propertyName, errorMessages) => new
+                    {
+                        Key = propertyName,
+                        Values = errorMessages.Distinct().ToArray()
+                    })
+                .ToDictionary(x => x.Key, x => x.Values);
+            if (errorsDictionary.Any())
             {
-                return new TResponse
-                {
-                    StatusCode = HttpStatusCode.BadRequest,
-                    ErrorMessage = new ValidationException(failures).Message
-                };
+                throw new ValidationException(errorsDictionary);
             }
 
             return await next();

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace CrudDemo.App.Project.Commands
 {
-    public record CreateProjectCommand(ProjectCreateDto projectCreateDto) : IRequest<ProjectReadDto>
+    public record CreateProjectCommand(ProjectCreateDto ProjectCreateDto) : IRequest<ProjectReadDto>
     {
         
     }
@@ -27,7 +27,7 @@ namespace CrudDemo.App.Project.Commands
 
         public async Task<ProjectReadDto> Handle(CreateProjectCommand request, CancellationToken cancellationToken)
         {
-            var newProject = this.mapper.Map<ProjectEntity>(request.projectCreateDto);
+            var newProject = this.mapper.Map<ProjectEntity>(request.ProjectCreateDto);
             newProject.CreatedTimestamp = DateTime.Now;
             newProject.CreatedByEmployeeId = new Guid("cd765367-1005-4e7a-55b1-08d9b12e39b9");
 

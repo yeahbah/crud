@@ -2,15 +2,15 @@
 
 namespace CrudDemo.App.Dtos
 {
-    public class ProjectReadDto
+    public record ProjectReadDto
     {
-        public Guid ProjectId { get; set; }
-        public string Name { get; set; }
+        public Guid ProjectId { get; init; }
+        public string Name { get; init; }
 
-        public DateTime CreatedTimestamp { get; set; }
+        public DateTime CreatedTimestamp { get; init; }
 
-        public Guid CreatedByEmployeeId { get; set; }
+        public Guid CreatedByEmployeeId { get; init; }
 
-        public string CreatedByEmployeeName { get; set; }
+        public string CreatedByEmployeeName { get; init; }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace CrudDemo.App.Dtos
 {
-    public record EmployeeReadDto : BaseResponse
+    public record EmployeeReadDto
     {
         public Guid Id { get; init; }
         public string FirstName { get; init; }

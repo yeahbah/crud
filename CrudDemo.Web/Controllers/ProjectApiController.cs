@@ -2,7 +2,6 @@
 using CrudDemo.App.Project.Commands;
 using CrudDemo.App.Project.Queries;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading;
@@ -36,11 +35,16 @@ namespace CrudDemo.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(ProjectCreateDto projectCreateDto, CancellationToken cancellationToken)
+        public async Task<IActionResult> Post([FromBody]ProjectCreateDto projectCreateDto, CancellationToken cancellationToken)
         {
-            var result = await this.mediator.Send(new CreateProjectCommand(projectCreateDto), cancellationToken);
+            if (ModelState.IsValid)
+            {
+                var result = await this.mediator.Send(new CreateProjectCommand(projectCreateDto), cancellationToken);
 
-            return CreatedAtRoute(nameof(GetProjectById), new { Id = result.ProjectId }, result);
+                return CreatedAtRoute(nameof(GetProjectById), new { Id = result.ProjectId }, result);
+            }
+
+            return new JsonResult("Something went wrong.") { StatusCode = 500 };
         }
     }
 }

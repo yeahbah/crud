@@ -1,10 +1,10 @@
-﻿using System;
-using Microsoft.Extensions.DependencyInjection;
+﻿using CrudDemo.App.PipelineBehaviors;
 using CrudDemo.Data;
-using MediatR;
 using FluentValidation;
-using CrudDemo.App.PipelineBehaviors;
+using MediatR;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace CrudDemo.App
 {
@@ -12,7 +12,7 @@ namespace CrudDemo.App
     {
         public static IServiceCollection AddAppServices(this IServiceCollection services, IConfiguration configuration)
         {
-            return services                
+            return services
                 .AddDemoData(configuration)
                 .AddMediatR(typeof(ServiceCollectionMapper).Assembly)
                 .AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>))
