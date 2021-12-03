@@ -1,17 +1,23 @@
 ﻿@inherits LayoutComponentBase
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
+<!-- Hero section -->
+    <section id="infinite" class="text-white tm-font-big tm-parallax">
+      <!-- Navigation -->
+      <NavMenu />
 
-    <main>
-        <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
-        </div>
-
-        <article class="content px-4">
+      
+      <div class="text-center tm-hero-text-container">
+        <div class="tm-hero-text-container-inner">
             @Body
-        </article>
-    </main>
-</div>
+        </div>        
+      </div>
+
+    </section>
+
+
+@*    <footer class="text-center small tm-footer">
+          <p class="mb-0">
+          Copyright &copy; 2020 Company Name 
+          
+          . <a rel="nofollow" href="https://www.tooplate.com" title="HTML templates">Designed by TOOPLATE</a></p>
+        </footer>*@

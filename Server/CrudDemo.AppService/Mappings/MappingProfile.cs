@@ -10,7 +10,8 @@ namespace CrudDemo.App.Mappings
         {
             // Source -> Target
             CreateMap<EmployeeCreateDto, EmployeeEntity>();
-            CreateMap<EmployeeEntity, EmployeeReadDto>();
+            CreateMap<EmployeeEntity, EmployeeReadDto>()
+                .ForMember(x => x.DepartmentName, opt => opt.MapFrom(src => src.Ref_Department.Name));
             CreateMap<ProjectCreateDto, ProjectEntity>();
             CreateMap<ProjectEntity, ProjectReadDto>()
                 .ForMember(x => x.CreatedByEmployeeName, opt => opt.MapFrom(src => src.Ref_CreatedByEmployee.FirstName + " " + src.Ref_CreatedByEmployee.LastName));

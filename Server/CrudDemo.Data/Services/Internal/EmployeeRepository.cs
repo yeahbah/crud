@@ -22,6 +22,7 @@ namespace CrudDemo.Data.Services.Internal
             try
             {
                 return await dbSet
+                    .Include(employee => employee.Ref_Department)
                     .Where(employee => employee.IsDeleted != 1)
                     .ToListAsync();
             }
@@ -35,6 +36,7 @@ namespace CrudDemo.Data.Services.Internal
         public override async Task<EmployeeEntity> GetById(Guid id)
         {
             return await this.dbSet
+                .Include(employee => employee.Ref_Department)
                 .FirstOrDefaultAsync(employee => employee.EmployeeId == id && employee.IsDeleted != 1);
         }
 

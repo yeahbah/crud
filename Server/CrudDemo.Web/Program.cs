@@ -4,8 +4,22 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 
 var builder = WebApplication.CreateBuilder(args);
+var cors = "allowcors";
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: cors,
+        builder =>
+        {
+            builder
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .SetIsOriginAllowed(origin => new Uri(origin).Host == "localhost");
+        });
+});
 
 builder.Services.AddControllers();
 builder.Services.AddLogging();
@@ -28,6 +42,7 @@ app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.UseHttpsRedirection();
 
 app.UseRouting();
+app.UseCors(cors);
 
 app.UseAuthorization();
 

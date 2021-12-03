@@ -16,6 +16,9 @@ namespace CrudDemo.Data.Models
         [MaxLength(100)]
         public string Name { get; set; }
 
+        [MaxLength(2000)]
+        public string Description { get; set; }
+
         [Required]
         public DateTime CreatedTimestamp { get; set; }
 

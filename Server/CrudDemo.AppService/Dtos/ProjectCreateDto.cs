@@ -2,8 +2,9 @@
 
 namespace CrudDemo.App.Dtos
 {
-    public class ProjectCreateDto
+    public record ProjectCreateDto
     {
-        public string Name { get; set; }
+        public string Name { get; init; }
+        public string Description { get; init; }
     }
 }

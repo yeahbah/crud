@@ -1,0 +1,53 @@
+﻿@page "/employees"
+@inject HttpClient Http
+@using CrudDemo.WebApp.Models
+
+<PageTitle>Our Talents</PageTitle>
+
+<h1 class="tm-hero-title">Our Talents</h1>
+
+<p class="tm-hero-subtitle">We at Crud Life believe in our Talents.</p>
+
+@if (employees == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="row tm-content-box">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone Number</th>
+                    <th>Birthdate</th>
+                    <th>Department</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var employee in employees)
+                {
+                    <tr>
+                        <td>@employee.Name</td>
+                        <td>@employee.Email</td>
+                        <td>@employee.PhoneNumber</td>
+                        <td>@employee.BirthDate.ToShortDateString()</td>
+                        <td>@employee.DepartmentName</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
+@code 
+{
+
+    private EmployeeModel[]? employees;
+
+    protected override async Task OnInitializedAsync()
+    {
+        employees = await Http.GetFromJsonAsync<EmployeeModel[]>("https://localhost:44341/api/Employee");
+    }
+}

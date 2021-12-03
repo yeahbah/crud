@@ -2,7 +2,15 @@
 
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background-color: #222;
+    background-image: url(../img/infinite-loop-01.jpg);
+    background-repeat: no-repeat;
+    height: 100vh;
+    min-height: 375px;
+    position: relative;
 }
+
+
 
 h1:focus {
     outline: none;
@@ -62,3 +70,11 @@ a, .btn-link {
     .blazor-error-boundary::after {
         content: "An error has occurred."
     }
+
+
+.table {
+    border-color: white;
+    border-style: none;
+    border-color: #444;
+    color: white;
+}

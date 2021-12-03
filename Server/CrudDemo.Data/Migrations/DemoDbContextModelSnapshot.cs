@@ -22,7 +22,7 @@ namespace CrudDemo.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("CrudDemo.Data.Models.Entities.DepartmentEntity", b =>
+            modelBuilder.Entity("CrudDemo.Data.Models.DepartmentEntity", b =>
                 {
                     b.Property<string>("DepartmentCode")
                         .HasMaxLength(5)
@@ -48,22 +48,32 @@ namespace CrudDemo.Data.Migrations
                         },
                         new
                         {
-                            DepartmentCode = "SALES",
-                            Name = "Sales"
+                            DepartmentCode = "LOG",
+                            Name = "Logistics"
                         },
                         new
                         {
-                            DepartmentCode = "AD",
-                            Name = "Advertising"
+                            DepartmentCode = "ENG",
+                            Name = "Engineering"
                         },
                         new
                         {
                             DepartmentCode = "SUP",
                             Name = "Tech Support"
+                        },
+                        new
+                        {
+                            DepartmentCode = "RKT",
+                            Name = "Rockets"
+                        },
+                        new
+                        {
+                            DepartmentCode = "BOARD",
+                            Name = "Leadership"
                         });
                 });
 
-            modelBuilder.Entity("CrudDemo.Data.Models.Entities.EmployeeEntity", b =>
+            modelBuilder.Entity("CrudDemo.Data.Models.EmployeeEntity", b =>
                 {
                     b.Property<Guid>("EmployeeId")
                         .ValueGeneratedOnAdd()
@@ -102,9 +112,71 @@ namespace CrudDemo.Data.Migrations
                     b.HasIndex("DepartmentCode");
 
                     b.ToTable("Employee");
+
+                    b.HasData(
+                        new
+                        {
+                            EmployeeId = new Guid("64232849-e64d-4ba2-a036-e6f603dfa182"),
+                            BirthDate = new DateTime(1972, 3, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DepartmentCode = "SUP",
+                            Email = "",
+                            FirstName = "System",
+                            LastName = "System",
+                            PhoneNumber = ""
+                        },
+                        new
+                        {
+                            EmployeeId = new Guid("9f64cc03-d96e-43e5-9f6a-fa8da71f1cd5"),
+                            BirthDate = new DateTime(1972, 3, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DepartmentCode = "BOARD",
+                            Email = "mars@spacey.com",
+                            FirstName = "Yellon",
+                            LastName = "Mask",
+                            PhoneNumber = "1112223333"
+                        },
+                        new
+                        {
+                            EmployeeId = new Guid("e890ea76-7c81-42a4-9eab-e9a1498a353c"),
+                            BirthDate = new DateTime(1972, 3, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DepartmentCode = "BOARD",
+                            Email = "bill.cool@spacey.com",
+                            FirstName = "Bill",
+                            LastName = "Geyts",
+                            PhoneNumber = "1112223333"
+                        },
+                        new
+                        {
+                            EmployeeId = new Guid("76eafd92-0122-4619-82ef-d39538679e55"),
+                            BirthDate = new DateTime(1980, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DepartmentCode = "ENG",
+                            Email = "toinfinityandbeyond@spacey.com",
+                            FirstName = "Bus",
+                            LastName = "Lightyear",
+                            PhoneNumber = "2223334444"
+                        },
+                        new
+                        {
+                            EmployeeId = new Guid("955644f9-3f3d-4ca3-a5c3-b22a306d2668"),
+                            BirthDate = new DateTime(1985, 1, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DepartmentCode = "RKT",
+                            Email = "iloverockets@spacey.com",
+                            FirstName = "Robert",
+                            LastName = "Goddard",
+                            PhoneNumber = ""
+                        },
+                        new
+                        {
+                            EmployeeId = new Guid("0167754b-bab2-4f82-aca2-00c658ff7042"),
+                            BirthDate = new DateTime(1985, 1, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DepartmentCode = "LOG",
+                            Email = "mynamejeff@spacey.com",
+                            FirstName = "Jeff",
+                            LastName = "Beshoes",
+                            PhoneNumber = ""
+                        });
                 });
 
-            modelBuilder.Entity("CrudDemo.Data.Models.Entities.EmployeeProjectEntity", b =>
+            modelBuilder.Entity("CrudDemo.Data.Models.EmployeeProjectEntity", b =>
                 {
                     b.Property<Guid>("EmployeeId")
                         .HasColumnType("uniqueidentifier");
@@ -119,7 +191,7 @@ namespace CrudDemo.Data.Migrations
                     b.ToTable("EmployeeProject");
                 });
 
-            modelBuilder.Entity("CrudDemo.Data.Models.Entities.ProjectEntity", b =>
+            modelBuilder.Entity("CrudDemo.Data.Models.ProjectEntity", b =>
                 {
                     b.Property<Guid>("ProjectId")
                         .ValueGeneratedOnAdd()
@@ -130,6 +202,10 @@ namespace CrudDemo.Data.Migrations
 
                     b.Property<DateTime>("CreatedTimestamp")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
 
                     b.Property<int?>("IsDeleted")
                         .HasColumnType("int");
@@ -150,11 +226,77 @@ namespace CrudDemo.Data.Migrations
                     b.HasIndex("CreatedByEmployeeId");
 
                     b.ToTable("Project");
+
+                    b.HasData(
+                        new
+                        {
+                            ProjectId = new Guid("5c29e952-5c73-4d00-b2c6-ad772aad5e8e"),
+                            CreatedByEmployeeId = new Guid("64232849-e64d-4ba2-a036-e6f603dfa182"),
+                            CreatedTimestamp = new DateTime(2021, 11, 29, 15, 2, 2, 892, DateTimeKind.Local).AddTicks(3069),
+                            Description = "Thaicom is the name of a series of communications satellites operated from Thailand, and also the name of Thaicom Public Company Limited, which is the company that owns and operates the Thaicom satellite fleet and other telecommunication businesses in Thailand and throughout the Asia-Pacific region. The satellite projects were named Thaicom by the King of Thailand, His Majesty the King Bhumibol Adulyadej, as a symbol of the linkage between Thailand and modern communications technology.",
+                            Name = "Thaicom"
+                        },
+                        new
+                        {
+                            ProjectId = new Guid("52c82ac7-73b6-433b-af00-f5601902227f"),
+                            CreatedByEmployeeId = new Guid("64232849-e64d-4ba2-a036-e6f603dfa182"),
+                            CreatedTimestamp = new DateTime(2021, 11, 29, 15, 2, 2, 892, DateTimeKind.Local).AddTicks(3133),
+                            Description = "In 2017, Iridium began launching Iridium NEXT, a second-generation worldwide network of telecommunications satellites, consisting of 66 active satellites, with another nine in-orbit spares and six on-ground spares. These satellites will incorporate features such as data transmission that were not emphasized in the original design. The constellation will provide L-band data speeds of up to 128 kbit/s to mobile terminals, up to 1.5 Mbit/s to Iridium Pilot marine terminals, and high-speed Ka-band service of up to 8 Mbit/s to fixed/transportable terminals. The next-generation terminals and service are expected to be commercially available by the end of 2018. However, Iridium's proposed use of its next-generation satellites has raised concerns the service will harmfully interfere with GPS devices. The satellites will incorporate a secondary payload for Aireon, a space-qualified ADS-B data receiver. This is for use by air traffic control and, via FlightAware, for use by airlines. A tertiary payload on 58 satellites is a marine AIS ship-tracker receiver, for Canadian company exactEarth Ltd. Iridium can also be used to provide a data link to other satellites in space, enabling command and control of other space assets regardless of the position of ground stations and gateways.",
+                            Name = "Iridium NEXT"
+                        },
+                        new
+                        {
+                            ProjectId = new Guid("c8925134-35e6-4768-8a2f-fcf0512d3864"),
+                            CreatedByEmployeeId = new Guid("64232849-e64d-4ba2-a036-e6f603dfa182"),
+                            CreatedTimestamp = new DateTime(2021, 11, 29, 15, 2, 2, 892, DateTimeKind.Local).AddTicks(3140),
+                            Description = "Commercial Resupply Services (CRS) are a series of contracts awarded by NASA from 2008–2016 for delivery of cargo and supplies to the International Space Station (ISS) on commercially operated spacecraft. The first CRS contracts were signed in 2008 and awarded $1.6 billion to SpaceX for 12 cargo transport missions and $1.9 billion to Orbital Sciences for 8 missions, covering deliveries to 2016. In 2015, NASA extended the Phase 1 contracts by ordering an additional three resupply flights from SpaceX and one from Orbital Sciences. After additional extensions late in 2015, SpaceX is currently scheduled to have a total of 20 missions and Orbital 10. SpaceX began flying resupply missions in 2012, using Dragon cargo spacecraft launched on Falcon 9 rockets from Space Launch Complex 40 at Cape Canaveral Air Force Station, Cape Canaveral, Florida. Orbital Sciences began deliveries in 2013 using Cygnus spacecraft launched on the Antares rocket from Launch Pad 0A at the Mid-Atlantic Regional Spaceport (MARS), Wallops Island, Virginia. A second phase of contracts (known as CRS2) were solicited and proposed in 2014. They were awarded in January 2016 to Orbital ATK, Sierra Nevada Corporation, and SpaceX, for cargo transport flights beginning in 2019 and expected to last through 2024.",
+                            Name = "Commercial Resupply Services"
+                        },
+                        new
+                        {
+                            ProjectId = new Guid("87595c88-9e5f-47a9-a29e-b24ac7a66d64"),
+                            CreatedByEmployeeId = new Guid("64232849-e64d-4ba2-a036-e6f603dfa182"),
+                            CreatedTimestamp = new DateTime(2021, 11, 29, 15, 2, 2, 892, DateTimeKind.Local).AddTicks(3146),
+                            Description = "SES S.A. is a communications satellite owner and operator providing video and data connectivity worldwide to broadcasters, content and internet service providers, mobile and fixed network operators, governments and institutions, with a mission to “connect, enable, and enrich”. SES operates more than 50 geostationary orbit satellites and 16 medium Earth orbit satellites. These comprise the well-known European Astra TV satellites, the O3b data satellites and others with names including AMC, Ciel, NSS, Quetzsat, YahSat and SES.",
+                            Name = "SES"
+                        },
+                        new
+                        {
+                            ProjectId = new Guid("2f111ec5-56d4-452a-89e7-faa4ca0df624"),
+                            CreatedByEmployeeId = new Guid("64232849-e64d-4ba2-a036-e6f603dfa182"),
+                            CreatedTimestamp = new DateTime(2021, 11, 29, 15, 2, 2, 892, DateTimeKind.Local).AddTicks(3152),
+                            Description = "The JSAT constellation is a communication and broadcasting satellite constellation formerly operated by JSAT Corporation and currently by SKY Perfect JSAT Group. It has become the most important commercial constellation in Japan, and the fifth of the world. It has practically amalgamated all private satellite operators in Japan, with only B-SAT left as a local competitor.",
+                            Name = "JCSAT"
+                        },
+                        new
+                        {
+                            ProjectId = new Guid("d2844205-89d0-47db-bbf6-d49e990ff2df"),
+                            CreatedByEmployeeId = new Guid("64232849-e64d-4ba2-a036-e6f603dfa182"),
+                            CreatedTimestamp = new DateTime(2021, 11, 29, 15, 2, 2, 892, DateTimeKind.Local).AddTicks(3157),
+                            Description = "Asia Satellite Telecommunications Holdings Limited known as its brand name AsiaSat is a commercial operator of communication spacecraft. AsiaSat is based in Hong Kong but incorporated in Bermuda.",
+                            Name = "AsiaSat"
+                        },
+                        new
+                        {
+                            ProjectId = new Guid("55e3e34d-7277-44e5-b87e-5ff311e1285d"),
+                            CreatedByEmployeeId = new Guid("64232849-e64d-4ba2-a036-e6f603dfa182"),
+                            CreatedTimestamp = new DateTime(2021, 11, 29, 15, 2, 2, 892, DateTimeKind.Local).AddTicks(3170),
+                            Description = "Orbcomm Generation 2 (OG2) second-generation satellites are intended to supplement and eventually replace the current first generation constellation. Eighteen satellites were ordered by 2008—nominally intended to be launched in three groups of six during 2010–2014—and by 2015 have all been launched, on three flights. Orbcomm has options for a further thirty OG2 spacecraft. The satellites were launched by SpaceX on the Falcon 9 launch system. Originally, they were to launch on the smaller Falcon 1e rocket.",
+                            Name = "Orbcomm OG2"
+                        },
+                        new
+                        {
+                            ProjectId = new Guid("ff6b6ad9-442d-4f22-8ae6-44e957a46561"),
+                            CreatedByEmployeeId = new Guid("64232849-e64d-4ba2-a036-e6f603dfa182"),
+                            CreatedTimestamp = new DateTime(2021, 11, 29, 15, 2, 2, 892, DateTimeKind.Local).AddTicks(3177),
+                            Description = "ABS, formerly Asia Broadcast Satellite, is a global satellite operator based in Hong Kong and officially incorporated in Bermuda. Its services include direct-to-home and satellite-to-cable TV distribution, cellular services, and internet services. Operating 6 communication satellites, the satellite fleet currently covers 93% of the world’s population including the Americas, Africa, Asia Pacific, Europe, the Middle East, Russia and Commonwealth of Independent States.",
+                            Name = "ABS"
+                        });
                 });
 
-            modelBuilder.Entity("CrudDemo.Data.Models.Entities.EmployeeEntity", b =>
+            modelBuilder.Entity("CrudDemo.Data.Models.EmployeeEntity", b =>
                 {
-                    b.HasOne("CrudDemo.Data.Models.Entities.DepartmentEntity", "Ref_Department")
+                    b.HasOne("CrudDemo.Data.Models.DepartmentEntity", "Ref_Department")
                         .WithMany("Ref_ManyEmployees")
                         .HasForeignKey("DepartmentCode")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -163,16 +305,16 @@ namespace CrudDemo.Data.Migrations
                     b.Navigation("Ref_Department");
                 });
 
-            modelBuilder.Entity("CrudDemo.Data.Models.Entities.EmployeeProjectEntity", b =>
+            modelBuilder.Entity("CrudDemo.Data.Models.EmployeeProjectEntity", b =>
                 {
-                    b.HasOne("CrudDemo.Data.Models.Entities.EmployeeEntity", "Ref_Employee")
+                    b.HasOne("CrudDemo.Data.Models.EmployeeEntity", "Ref_Employee")
                         .WithMany("Ref_Projects")
                         .HasForeignKey("EmployeeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CrudDemo.Data.Models.Entities.ProjectEntity", "Ref_Project")
-                        .WithMany("Ref_Employees")
+                    b.HasOne("CrudDemo.Data.Models.ProjectEntity", "Ref_Project")
+                        .WithMany("Ref_ManyEmployees")
                         .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -182,9 +324,9 @@ namespace CrudDemo.Data.Migrations
                     b.Navigation("Ref_Project");
                 });
 
-            modelBuilder.Entity("CrudDemo.Data.Models.Entities.ProjectEntity", b =>
+            modelBuilder.Entity("CrudDemo.Data.Models.ProjectEntity", b =>
                 {
-                    b.HasOne("CrudDemo.Data.Models.Entities.EmployeeEntity", "Ref_CreatedByEmployee")
+                    b.HasOne("CrudDemo.Data.Models.EmployeeEntity", "Ref_CreatedByEmployee")
                         .WithMany("Ref_CreatedProjects")
                         .HasForeignKey("CreatedByEmployeeId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -193,21 +335,21 @@ namespace CrudDemo.Data.Migrations
                     b.Navigation("Ref_CreatedByEmployee");
                 });
 
-            modelBuilder.Entity("CrudDemo.Data.Models.Entities.DepartmentEntity", b =>
+            modelBuilder.Entity("CrudDemo.Data.Models.DepartmentEntity", b =>
                 {
                     b.Navigation("Ref_ManyEmployees");
                 });
 
-            modelBuilder.Entity("CrudDemo.Data.Models.Entities.EmployeeEntity", b =>
+            modelBuilder.Entity("CrudDemo.Data.Models.EmployeeEntity", b =>
                 {
                     b.Navigation("Ref_CreatedProjects");
 
                     b.Navigation("Ref_Projects");
                 });
 
-            modelBuilder.Entity("CrudDemo.Data.Models.Entities.ProjectEntity", b =>
+            modelBuilder.Entity("CrudDemo.Data.Models.ProjectEntity", b =>
                 {
-                    b.Navigation("Ref_Employees");
+                    b.Navigation("Ref_ManyEmployees");
                 });
 #pragma warning restore 612, 618
         }

@@ -3,9 +3,9 @@
 
 <PageTitle>Weather forecast</PageTitle>
 
-<h1>Weather forecast</h1>
+<h1 class="tm-hero-title">Weather forecast</h1>
 
-<p>This component demonstrates fetching data from the server.</p>
+<p class="tm-hero-subtitle">This component demonstrates fetching data from the server.</p>
 
 @if (forecasts == null)
 {
@@ -13,6 +13,7 @@
 }
 else
 {
+    <div class="row tm-content-box">
     <table class="table">
         <thead>
             <tr>
@@ -34,6 +35,7 @@ else
             }
         </tbody>
     </table>
+    </div>
 }
 
 @code {

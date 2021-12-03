@@ -9,7 +9,8 @@ namespace CrudDemo.App.Dtos
         public string LastName { get; init; }
         public string Email { get; init; }
         public string PhoneNumber { get; init; }
-        public string DepartmentCode { get; set; }
+        public string DepartmentCode { get; init; }
+        public string DepartmentName { get; init; }
         public DateTime BirthDate { get; init; }
     }
 }

@@ -6,6 +6,7 @@ namespace CrudDemo.App.Dtos
     {
         public Guid ProjectId { get; init; }
         public string Name { get; init; }
+        public string Description { get; init; }
 
         public DateTime CreatedTimestamp { get; init; }
 
