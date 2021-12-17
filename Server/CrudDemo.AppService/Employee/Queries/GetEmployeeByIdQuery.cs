@@ -26,7 +26,7 @@ namespace CrudDemo.App.Employee.Queries
 
         public async Task<EmployeeReadDto> Handle(GetEmployeeByIdQuery request, CancellationToken cancellationToken)
         {
-            var result = await this.unitOfWork.Employee.GetById(request.Id);
+            var result = await this.unitOfWork.Employee.GetById(request.Id, cancellationToken);
             return this.mapper.Map<EmployeeReadDto>(result);
         }
     }

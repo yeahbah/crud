@@ -28,7 +28,7 @@ namespace CrudDemo.App.Employee.Commands
         {
             var newEmployee = this.mapper.Map<EmployeeEntity>(request.EmployeeCreateDto);
             await this.crudDataService.Employee.Add(newEmployee);
-            await this.crudDataService.CompleteAsync();
+            await this.crudDataService.CompleteAsync(cancellationToken);
 
             return this.mapper.Map<EmployeeReadDto>(newEmployee);
         }

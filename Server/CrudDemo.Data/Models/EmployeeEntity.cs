@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace CrudDemo.Data.Models
 {
@@ -39,5 +41,17 @@ namespace CrudDemo.Data.Models
 
         public virtual ICollection<ProjectEntity> Ref_CreatedProjects { get; set; }
 
+    }
+
+    internal class EmployeeEntityConfiguration : IEntityTypeConfiguration<EmployeeEntity>
+    {
+        public void Configure(EntityTypeBuilder<EmployeeEntity> builder)
+        {
+            builder
+                .HasOne(employee => employee.Ref_Department)
+                .WithMany(department => department.Ref_ManyEmployees)
+                .HasForeignKey(employee => employee.DepartmentCode);
+            
+        }
     }
 }

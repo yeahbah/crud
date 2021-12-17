@@ -5,6 +5,7 @@ using AutoMapper;
 using CrudDemo.App.Dtos;
 using CrudDemo.Data.Services;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace CrudDemo.App.Employee.Queries
 {
@@ -26,7 +27,11 @@ namespace CrudDemo.App.Employee.Queries
 
         public async Task<IEnumerable<EmployeeReadDto>> Handle(GetAllEmployeesQuery request, CancellationToken cancellationToken)
         {
-            var result = await this.crudDataService.Employee.All();
+            var result = await this.crudDataService.Employee
+                .All()
+                .GetAwaiter()
+                .GetResult()
+                .ToListAsync(cancellationToken);
             return this.mapper.Map<IEnumerable<EmployeeReadDto>>(result);
         }
     }

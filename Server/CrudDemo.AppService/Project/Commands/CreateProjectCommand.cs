@@ -34,7 +34,7 @@ namespace CrudDemo.App.Project.Commands
             if (!(await this.crudDataService.Project.Add(newProject)))
                 throw new Exception("Unable to create new project");
 
-            await this.crudDataService.CompleteAsync();
+            await this.crudDataService.CompleteAsync(cancellationToken);
             return this.mapper.Map<ProjectReadDto>(newProject);
         }
     }

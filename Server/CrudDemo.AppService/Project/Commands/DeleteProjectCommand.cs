@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CrudDemo.App.Project.Commands
 {
-    public record DeleteProjectCommand(Guid id) : IRequest;
+    public record DeleteProjectCommand(Guid Id) : IRequest;
    
     public class DeleteProjectCommandHandler : IRequestHandler<DeleteProjectCommand>
     {
@@ -19,9 +19,9 @@ namespace CrudDemo.App.Project.Commands
 
         public async Task<Unit> Handle(DeleteProjectCommand request, CancellationToken cancellationToken)
         {
-            if (await this.crudDataService.Project.Delete(request.id))
+            if (await this.crudDataService.Project.Delete(request.Id, cancellationToken))
             {
-                await this.crudDataService.CompleteAsync();
+                await this.crudDataService.CompleteAsync(cancellationToken);
             }
 
             return Unit.Value;

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 
@@ -22,9 +23,9 @@ namespace CrudDemo.Data.Services.Internal
         
         public IProjectRepository Project { get; private set; }
 
-        public async Task CompleteAsync()
+        public async Task CompleteAsync(CancellationToken cancellationToken)
         {
-            await this.dbContext.SaveChangesAsync();
+            await this.dbContext.SaveChangesAsync(cancellationToken);
         }
 
         public void Dispose()

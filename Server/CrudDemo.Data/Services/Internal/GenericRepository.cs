@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -14,7 +15,7 @@ namespace CrudDemo.Data.Services.Internal
         private readonly ILogger logger;
         internal DbSet<T> dbSet;
 
-        public GenericRepository(DemoDbContext dbContext, ILogger logger)
+        protected GenericRepository(DemoDbContext dbContext, ILogger logger)
         {
             this.dbContext = dbContext;
             this.logger = logger;
@@ -27,22 +28,22 @@ namespace CrudDemo.Data.Services.Internal
             return true;
         }
 
-        public virtual Task<IEnumerable<T>> All()
+        public virtual Task<IQueryable<T>> All()
         {
             throw new NotImplementedException();
         }
 
-        public virtual Task<bool> Delete(Guid id)
+        public virtual Task<bool> Delete(Guid id, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }
 
-        public virtual async Task<IEnumerable<T>> Find(Expression<Func<T, bool>> predicate)
+        public virtual Task<IQueryable<T>> Find(Expression<Func<T, bool>> predicate)
         {
-            return await dbSet.Where(predicate).ToListAsync();
+            return Task.FromResult(dbSet.Where(predicate));
         }
 
-        public virtual async Task<T> GetById(Guid id)
+        public virtual async Task<T> GetById(Guid id, CancellationToken cancellationToken)
         {
             return await dbSet.FindAsync(id);
         }

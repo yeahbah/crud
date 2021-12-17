@@ -3,8 +3,10 @@ using CrudDemo.App.Dtos;
 using CrudDemo.Data.Services;
 using MediatR;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace CrudDemo.App.Project.Queries
 {
@@ -26,7 +28,11 @@ namespace CrudDemo.App.Project.Queries
 
         public async Task<IEnumerable<ProjectReadDto>> Handle(GetAllProjectsQuery request, CancellationToken cancellationToken)
         {
-            var result = await this.crudDataService.Project.All();
+            var result = await this.crudDataService.Project
+                .All()
+                .GetAwaiter()
+                .GetResult()
+                .ToListAsync(cancellationToken);
 
             return this.mapper.Map<IEnumerable<ProjectReadDto>>(result);
 

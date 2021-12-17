@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace CrudDemo.Data.Models
 {
@@ -20,5 +22,45 @@ namespace CrudDemo.Data.Models
         public ushort? IsDeleted { get; set; }
 
         public ICollection<EmployeeEntity> Ref_ManyEmployees { get; set; }
+    }
+
+    internal class DepartmentEntityConfiguration : IEntityTypeConfiguration<DepartmentEntity>
+    {
+        public void Configure(EntityTypeBuilder<DepartmentEntity> builder)
+        {
+            builder
+                .HasData(
+                    new DepartmentEntity
+                    {
+                        DepartmentCode = "IT",
+                        Name = "Information Technology"
+                    },
+                    new DepartmentEntity
+                    {
+                        DepartmentCode = "LOG",
+                        Name = "Logistics"
+                    },
+                    new DepartmentEntity
+                    {
+                        DepartmentCode = "ENG",
+                        Name = "Engineering"
+                    },
+                    new DepartmentEntity
+                    {
+                        DepartmentCode = "SUP",
+                        Name = "Tech Support"
+                    },
+                    new DepartmentEntity
+                    {
+                        DepartmentCode = "RKT",
+                        Name = "Rockets"
+                    },
+                    new DepartmentEntity
+                    {
+                        DepartmentCode = "BOARD",
+                        Name = "Leadership"
+                    }
+                );
+        }
     }
 }

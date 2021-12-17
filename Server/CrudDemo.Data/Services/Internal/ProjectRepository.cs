@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using CrudDemo.Data.Models;
 using Microsoft.EntityFrameworkCore;
@@ -19,27 +20,29 @@ namespace CrudDemo.Data.Services.Internal
             this.logger = logger;
         }
 
-        public override async Task<IEnumerable<ProjectEntity>> All()
+        public override Task<IQueryable<ProjectEntity>> All()
         {
             try
             {
-                return await this.dbContext.Projects
-                    .Include(project => project.Ref_CreatedByEmployee)
-                    .Where(project => project.IsDeleted != 1)
-                    .ToListAsync();
+                return Task.FromResult(
+                    this.dbContext.Projects
+                        .AsNoTracking()
+                        .Include(project => project.Ref_CreatedByEmployee)
+                        .Where(project => project.IsDeleted != 1));
             }
             catch (Exception e)
             {
                 this.logger.LogError(e, $"{typeof(ProjectRepository)} All() function error");
-                return new List<ProjectEntity>();
+                throw;
             }
         }
 
-        public override async Task<ProjectEntity> GetById(Guid id)
+        public override async Task<ProjectEntity> GetById(Guid id, CancellationToken cancellationToken)
         {
             return await this.dbContext.Projects
+                .AsNoTracking()
                 .Include(project => project.Ref_CreatedByEmployee)
-                .FirstOrDefaultAsync(project => project.ProjectId == id && project.IsDeleted != 1);
+                .FirstOrDefaultAsync(project => project.ProjectId == id && project.IsDeleted != 1, cancellationToken);
 
         }
 
@@ -64,7 +67,7 @@ namespace CrudDemo.Data.Services.Internal
             }
         }
 
-        public override async Task<bool> Delete(Guid id)
+        public override async Task<bool> Delete(Guid id, CancellationToken cancellationToken)
         {
             try
             {

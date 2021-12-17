@@ -26,7 +26,7 @@ namespace CrudDemo.App.Project.Queries
 
         public async Task<ProjectReadDto> Handle(GetProjectByIdQuery request, CancellationToken cancellationToken)
         {
-            var result = await this.crudDataService.Project.GetById(request.Id);
+            var result = await this.crudDataService.Project.GetById(request.Id, cancellationToken);
             return this.mapper.Map<ProjectReadDto>(result);
         }
     }
