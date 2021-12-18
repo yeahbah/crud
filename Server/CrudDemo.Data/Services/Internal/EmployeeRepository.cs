@@ -24,8 +24,9 @@ namespace CrudDemo.Data.Services.Internal
             {
                 return Task.FromResult(
                     dbSet
-                    .Include(employee => employee.Ref_Department)
-                    .Where(employee => employee.IsDeleted != 1));
+                        .TagWith("Get all employees")
+                        .Include(employee => employee.Ref_Department)
+                        .Where(employee => employee.IsDeleted != 1));
 
             }
             catch (Exception ex)
