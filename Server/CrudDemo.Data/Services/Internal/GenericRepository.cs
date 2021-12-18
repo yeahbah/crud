@@ -11,20 +11,18 @@ namespace CrudDemo.Data.Services.Internal
 {
     internal class GenericRepository<T> : IGenericRepository<T> where T : class
     {
-        private readonly DemoDbContext dbContext;
         private readonly ILogger logger;
         internal DbSet<T> dbSet;
 
         protected GenericRepository(DemoDbContext dbContext, ILogger logger)
         {
-            this.dbContext = dbContext;
             this.logger = logger;
             this.dbSet = dbContext.Set<T>();
         }
 
-        public virtual async Task<bool> Add(T entity)
+        public virtual async Task<bool> Add(T entity, CancellationToken cancellationToken)
         {
-            await this.dbSet.AddAsync(entity);
+            await this.dbSet.AddAsync(entity, cancellationToken);
             return true;
         }
 
@@ -45,10 +43,10 @@ namespace CrudDemo.Data.Services.Internal
 
         public virtual async Task<T> GetById(Guid id, CancellationToken cancellationToken)
         {
-            return await dbSet.FindAsync(id);
+            return await dbSet.FindAsync(id, cancellationToken);
         }
 
-        public virtual Task<bool> Upsert(T entity)
+        public virtual Task<bool> Upsert(T entity, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }

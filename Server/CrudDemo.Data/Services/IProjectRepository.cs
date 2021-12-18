@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using CrudDemo.Data.Models;
+﻿using CrudDemo.Data.Models;
 
-namespace CrudDemo.Data.Services
+namespace CrudDemo.Data.Services;
+
+public interface IProjectRepository : IGenericRepository<ProjectEntity>
 {
-    public interface IProjectRepository : IGenericRepository<ProjectEntity>
-    {
         
-    }
 }

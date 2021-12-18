@@ -1,5 +1,6 @@
 ﻿@page "/employees"
-@inject HttpClient Http
+@inject HttpClient http
+@inject IConfiguration configuration
 @using CrudDemo.WebApp.Models
 
 <PageTitle>Our Talents</PageTitle>
@@ -48,6 +49,6 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        employees = await Http.GetFromJsonAsync<EmployeeModel[]>("https://localhost:44341/api/Employee");
+        employees = await http.GetFromJsonAsync<EmployeeModel[]>($"{@configuration["ApiBaseUrl"]}/Employee");
     }
 }

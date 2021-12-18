@@ -4,14 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CrudDemo.App.Exceptions
-{
-    public sealed class ValidationException : ApplicationException
-    {
-        public ValidationException(IReadOnlyDictionary<string, string[]> errorsDictionary)
-            : base("Validation Failure", "One or more validation errors occurred")
-            => ErrorsDictionary = errorsDictionary;
+namespace CrudDemo.App.Exceptions;
 
-        public IReadOnlyDictionary<string, string[]> ErrorsDictionary { get; }
-    }
+public sealed class ValidationException : ApplicationException
+{
+    public ValidationException(IReadOnlyDictionary<string, string[]> errorsDictionary)
+        : base("Validation Failure", "One or more validation errors occurred")
+        => ErrorsDictionary = errorsDictionary;
+
+    public IReadOnlyDictionary<string, string[]> ErrorsDictionary { get; }
 }

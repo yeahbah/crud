@@ -22,6 +22,7 @@ namespace CrudDemo.Data.Services.Internal
         public IEmployeeRepository Employee { get; private set; }
         
         public IProjectRepository Project { get; private set; }
+        public IDepartmentRepository Department { get; set; }
 
         public async Task CompleteAsync(CancellationToken cancellationToken)
         {

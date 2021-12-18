@@ -4,28 +4,27 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace CrudDemo.App.Project.Commands
-{
-    public record DeleteProjectCommand(Guid Id) : IRequest;
+namespace CrudDemo.App.Project.Commands;
+
+public record DeleteProjectCommand(Guid Id) : IRequest;
    
-    public class DeleteProjectCommandHandler : IRequestHandler<DeleteProjectCommand>
+public class DeleteProjectCommandHandler : IRequestHandler<DeleteProjectCommand>
+{
+    private readonly ICrudDataService crudDataService;
+
+    public DeleteProjectCommandHandler(ICrudDataService crudDataService)
     {
-        private readonly ICrudDataService crudDataService;
+        this.crudDataService = crudDataService;
+    }
 
-        public DeleteProjectCommandHandler(ICrudDataService crudDataService)
+    public async Task<Unit> Handle(DeleteProjectCommand request, CancellationToken cancellationToken)
+    {
+        if (await this.crudDataService.Project.Delete(request.Id, cancellationToken))
         {
-            this.crudDataService = crudDataService;
+            await this.crudDataService.CompleteAsync(cancellationToken);
         }
 
-        public async Task<Unit> Handle(DeleteProjectCommand request, CancellationToken cancellationToken)
-        {
-            if (await this.crudDataService.Project.Delete(request.Id, cancellationToken))
-            {
-                await this.crudDataService.CompleteAsync(cancellationToken);
-            }
+        return Unit.Value;
 
-            return Unit.Value;
-
-        }
     }
 }

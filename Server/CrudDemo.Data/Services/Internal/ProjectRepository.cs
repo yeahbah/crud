@@ -46,7 +46,7 @@ namespace CrudDemo.Data.Services.Internal
 
         }
 
-        public override async Task<bool> Upsert(ProjectEntity entity)
+        public override async Task<bool> Upsert(ProjectEntity entity, CancellationToken cancellationToken)
         {
             try
             {
@@ -54,7 +54,7 @@ namespace CrudDemo.Data.Services.Internal
                     .FirstOrDefaultAsync(x => x.ProjectId == entity.ProjectId && x.IsDeleted != 1);
 
                 if (existingProject == null)
-                    return await Add(entity);
+                    return await Add(entity, cancellationToken);
 
                 existingProject.Name = entity.Name;
 
@@ -72,7 +72,7 @@ namespace CrudDemo.Data.Services.Internal
             try
             {
                 var project = await dbSet
-                    .FirstOrDefaultAsync(x => x.ProjectId == id);
+                    .FirstOrDefaultAsync(x => x.ProjectId == id, cancellationToken);
 
                 if (project == null) return false;
 

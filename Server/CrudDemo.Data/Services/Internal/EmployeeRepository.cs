@@ -42,15 +42,15 @@ namespace CrudDemo.Data.Services.Internal
                 .FirstOrDefaultAsync(employee => employee.EmployeeId == id && employee.IsDeleted != 1, cancellationToken: cancellationToken);
         }
 
-        public override async Task<bool> Upsert(EmployeeEntity entity)
+        public override async Task<bool> Upsert(EmployeeEntity entity, CancellationToken cancellationToken)
         {
             try
             {
                 var existingUser = await dbSet
                     .Where(x => x.EmployeeId == entity.EmployeeId && entity.IsDeleted != 1)
-                    .FirstOrDefaultAsync();
+                    .FirstOrDefaultAsync(cancellationToken);
                 if (existingUser == null)
-                    return await Add(entity);
+                    return await Add(entity, cancellationToken);
 
                 existingUser.FirstName = entity.FirstName;
                 existingUser.LastName = entity.LastName;

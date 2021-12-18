@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 
 namespace CrudDemo.Data.Services
@@ -8,6 +7,7 @@ namespace CrudDemo.Data.Services
     {
         IEmployeeRepository Employee { get; }
         IProjectRepository Project { get; }
+        IDepartmentRepository Department { get; set; }
         Task CompleteAsync(CancellationToken cancellationToken);
         void Dispose();
     }

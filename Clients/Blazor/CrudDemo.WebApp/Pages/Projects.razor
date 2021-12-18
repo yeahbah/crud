@@ -1,5 +1,6 @@
 ﻿@page "/projects"
-@inject HttpClient Http
+@inject HttpClient http
+@inject IConfiguration configuration
 @using CrudDemo.WebApp.Models
 
 <PageTitle>Our Projects</PageTitle>
@@ -93,6 +94,6 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        projects = await Http.GetFromJsonAsync<ProjectModel[]>("https://localhost:44341/api/Project");
+        projects = await http.GetFromJsonAsync<ProjectModel[]>($"{@configuration["ApiBaseUrl"]}/Project");
     }
 }

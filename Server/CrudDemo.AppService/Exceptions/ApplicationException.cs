@@ -1,13 +1,12 @@
 ﻿using System;
 
-namespace CrudDemo.App.Exceptions
-{
-    public abstract class ApplicationException : Exception
-    {
-        protected ApplicationException(string title, string message)
-            : base(message) =>
-            Title = title;
+namespace CrudDemo.App.Exceptions;
 
-        public string Title { get; }
-    }
+public abstract class ApplicationException : Exception
+{
+    protected ApplicationException(string title, string message)
+        : base(message) =>
+        Title = title;
+
+    public string Title { get; }
 }

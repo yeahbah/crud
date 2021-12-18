@@ -1,17 +1,16 @@
 ﻿using System;
 
-namespace CrudDemo.App.Dtos
+namespace CrudDemo.App.Dtos;
+
+public record ProjectReadDto
 {
-    public record ProjectReadDto
-    {
-        public Guid ProjectId { get; init; }
-        public string Name { get; init; }
-        public string Description { get; init; }
+    public Guid ProjectId { get; init; }
+    public string Name { get; init; }
+    public string Description { get; init; }
 
-        public DateTime CreatedTimestamp { get; init; }
+    public DateTime CreatedTimestamp { get; init; }
 
-        public Guid CreatedByEmployeeId { get; init; }
+    public Guid CreatedByEmployeeId { get; init; }
 
-        public string CreatedByEmployeeName { get; init; }
-    }
+    public string CreatedByEmployeeName { get; init; }
 }

@@ -4,27 +4,26 @@ using System.Threading.Tasks;
 using CrudDemo.Data.Services;
 using MediatR;
 
-namespace CrudDemo.App.Employee.Commands
+namespace CrudDemo.App.Employee.Commands;
+
+public record DeleteEmployeeCommand(Guid Id) : IRequest;
+
+public class DeleteEmployeeCommandHandler : IRequestHandler<DeleteEmployeeCommand>
 {
-    public record DeleteEmployeeCommand(Guid Id) : IRequest;
+    private readonly ICrudDataService crudDataService;
 
-    public class DeleteEmployeeCommandHandler : IRequestHandler<DeleteEmployeeCommand>
+    public DeleteEmployeeCommandHandler(ICrudDataService unitOfWork)
     {
-        private readonly ICrudDataService crudDataService;
+        this.crudDataService = unitOfWork;
+    }
 
-        public DeleteEmployeeCommandHandler(ICrudDataService unitOfWork)
+    public async Task<Unit> Handle(DeleteEmployeeCommand request, CancellationToken cancellationToken)
+    {
+        if (await this.crudDataService.Employee.Delete(request.Id, cancellationToken))
         {
-            this.crudDataService = unitOfWork;
+            await this.crudDataService.CompleteAsync(cancellationToken);
         }
 
-        public async Task<Unit> Handle(DeleteEmployeeCommand request, CancellationToken cancellationToken)
-        {
-            if (await this.crudDataService.Employee.Delete(request.Id, cancellationToken))
-            {
-                await this.crudDataService.CompleteAsync(cancellationToken);
-            }
-
-            return Unit.Value;
-        }
+        return Unit.Value;
     }
 }

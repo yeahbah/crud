@@ -1,20 +1,19 @@
 ﻿using CrudDemo.App;
 using CrudDemo.Web.Middleware;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 
 var builder = WebApplication.CreateBuilder(args);
-var cors = "allowcors";
+const string cors = "allowcors";
 
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: cors,
-        builder =>
+        corsPolicyBuilder =>
         {
-            builder
+            corsPolicyBuilder
                 .AllowAnyHeader()
                 .AllowAnyMethod()
                 .SetIsOriginAllowed(origin => new Uri(origin).Host == "localhost");

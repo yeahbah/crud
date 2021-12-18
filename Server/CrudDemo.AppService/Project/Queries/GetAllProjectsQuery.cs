@@ -8,34 +8,33 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
-namespace CrudDemo.App.Project.Queries
+namespace CrudDemo.App.Project.Queries;
+
+public record GetAllProjectsQuery : IRequest<IEnumerable<ProjectReadDto>>
 {
-    public record GetAllProjectsQuery : IRequest<IEnumerable<ProjectReadDto>>
-    {
         
+}
+
+public class GetAllProjectsQueryHandler : IRequestHandler<GetAllProjectsQuery, IEnumerable<ProjectReadDto>>
+{
+    private readonly ICrudDataService crudDataService;
+    private readonly IMapper mapper;
+
+    public GetAllProjectsQueryHandler(ICrudDataService crudDataService, IMapper mapper)
+    {
+        this.crudDataService = crudDataService;
+        this.mapper = mapper;
     }
 
-    public class GetAllProjectsQueryHandler : IRequestHandler<GetAllProjectsQuery, IEnumerable<ProjectReadDto>>
+    public async Task<IEnumerable<ProjectReadDto>> Handle(GetAllProjectsQuery request, CancellationToken cancellationToken)
     {
-        private readonly ICrudDataService crudDataService;
-        private readonly IMapper mapper;
+        var result = await this.crudDataService.Project
+            .All()
+            .GetAwaiter()
+            .GetResult()
+            .ToListAsync(cancellationToken);
 
-        public GetAllProjectsQueryHandler(ICrudDataService crudDataService, IMapper mapper)
-        {
-            this.crudDataService = crudDataService;
-            this.mapper = mapper;
-        }
+        return this.mapper.Map<IEnumerable<ProjectReadDto>>(result);
 
-        public async Task<IEnumerable<ProjectReadDto>> Handle(GetAllProjectsQuery request, CancellationToken cancellationToken)
-        {
-            var result = await this.crudDataService.Project
-                .All()
-                .GetAwaiter()
-                .GetResult()
-                .ToListAsync(cancellationToken);
-
-            return this.mapper.Map<IEnumerable<ProjectReadDto>>(result);
-
-        }
     }
 }
