@@ -1,6 +1,7 @@
 ﻿@page "/employees"
 @inject HttpClient http
 @inject IConfiguration configuration
+@inject NavigationManager navManager
 @using CrudDemo.WebApp.Models
 
 <PageTitle>Our Talents</PageTitle>
@@ -15,30 +16,48 @@
 }
 else
 {
-    <div class="row tm-content-box">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Phone Number</th>
-                    <th>Birthdate</th>
-                    <th>Department</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var employee in employees)
-                {
-                    <tr>
-                        <td>@employee.Name</td>
-                        <td>@employee.Email</td>
-                        <td>@employee.PhoneNumber</td>
-                        <td>@employee.BirthDate.ToShortDateString()</td>
-                        <td>@employee.DepartmentName</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+    
+    <div style="margin: 50px; text-align: left">
+    <MudGrid>
+        <MudGrid Spacing="2" Justify="Justify.Center">
+            @foreach(var employee in employees)
+            {
+                    var avatarImage = $"/img/avatar-{employee.LastName}.jpg";
+                    <MudItem Style="height:300px">
+                
+                    <MudCard>
+                        <MudCardHeader>
+                            <CardHeaderAvatar>
+                                <MudAvatar Image=@avatarImage Size="Size.Large"/>
+                            </CardHeaderAvatar>
+                            <CardHeaderContent>                        
+                                <MudText>@employee.Name</MudText>
+                                <MudText Typo="Typo.body2">Department: @employee.DepartmentName</MudText>
+                            </CardHeaderContent>                            
+                        </MudCardHeader>
+                        <MudCardContent>
+                            
+                            <MudText Typo="Typo.body1" >                                
+                                <span class="material-icons">rocket_launch</span> <span style="font-weight:bold">Projects</span>
+                            </MudText>  
+                            @foreach(var project in employee.Projects)
+                            {                                
+                                <MudText Typo="Typo.body2">
+                                    <a href="project/@project.ProjectId" > @project.ProjectName</a>
+                                </MudText>
+                            }
+                            
+                        </MudCardContent>
+                        <MudCardActions   Style="background-color: lightgrey">                        
+                            <MudButton Variant="Variant.Text" Color="Color.Primary" OnClick="args => goToEditPage(args, employee.EmployeeId)">Edit</MudButton>
+                            <MudButton Variant="Variant.Text" Color="Color.Primary" OnClick="args => goToDeleteConfirmPage(args, employee.EmployeeId)">Delete</MudButton>
+                        </MudCardActions>
+                    </MudCard>    
+                
+            </MudItem>
+            }
+        </MudGrid>
+    </MudGrid>
     </div>
 }
 
@@ -50,5 +69,17 @@ else
     protected override async Task OnInitializedAsync()
     {
         employees = await http.GetFromJsonAsync<EmployeeModel[]>($"{@configuration["ApiBaseUrl"]}/Employee");
+    }
+
+    private async Task goToEditPage(MouseEventArgs args, Guid EmployeeId)
+    {        
+        string? page = $"editemployee/{EmployeeId}";
+        navManager.NavigateTo(navManager.BaseUri + page);        
+    }
+
+    private async Task goToDeleteConfirmPage(MouseEventArgs args, Guid EmployeeId)
+    {
+        string? page = $"confirmdelete/{EmployeeId}";
+        navManager.NavigateTo(navManager.BaseUri + page);        
     }
 }

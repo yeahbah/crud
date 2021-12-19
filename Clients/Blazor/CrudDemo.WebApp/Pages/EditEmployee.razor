@@ -1,0 +1,14 @@
+﻿@page "/editemployee/{EmployeeId}"
+
+<PageTitle>Edit Talent Information</PageTitle>
+
+<h1 class="tm-hero-title">Edit Talent Information</h1>
+
+<p class="tm-hero-subtitle">You are editing @EmployeeId</p>
+
+
+
+@code {
+    [Parameter]
+    public string? EmployeeId { get; set; }
+}
