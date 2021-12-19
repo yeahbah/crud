@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace CrudDemo.App.Dtos;
 
@@ -12,4 +13,5 @@ public record EmployeeReadDto
     public string DepartmentCode { get; init; }
     public string DepartmentName { get; init; }
     public DateTime BirthDate { get; init; }
+    public ICollection<EmployeeProjectReadDto> Projects { get; set; }
 }

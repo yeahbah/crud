@@ -1,27 +1,21 @@
 ﻿using System;
-using System.Runtime.InteropServices.ComTypes;
 using CrudDemo.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Console;
-using Microsoft.Extensions.Options;
+//using Microsoft.Extensions.Logging.Console;
 
 namespace CrudDemo.Data;
 
 public class DemoDbContext : DbContext
 {
-    private readonly ILoggerFactory loggerFactory;
-
-    public DemoDbContext(DbContextOptions options, ILoggerFactory loggerFactory)
+    public DemoDbContext(DbContextOptions options)
         : base(options)
     {
-        this.loggerFactory = loggerFactory;
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseLoggerFactory(loggerFactory);
+        //optionsBuilder.UseLoggerFactory(loggerFactory);
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -189,10 +183,8 @@ internal class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<DemoDbCo
         //var connectionString = configuration.GetConnectionString("DefaultConnection");
         //builder.UseNpgsql(connectionString);
 
-        var loggerFactory = LoggerFactory.Create(builder =>
-        {
-            builder.AddConsole();
-        });
-        return new DemoDbContext(builder.Options, loggerFactory);
+
+        //var logger = loggerFactory.CreateLogger(typeof(DemoDbContext));
+        return new DemoDbContext(builder.Options);
     }
 }

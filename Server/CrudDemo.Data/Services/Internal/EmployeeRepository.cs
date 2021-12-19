@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using CrudDemo.Data.Models;
@@ -26,6 +27,8 @@ namespace CrudDemo.Data.Services.Internal
                     dbSet
                         .TagWith("Get all employees")
                         .Include(employee => employee.Ref_Department)
+                        .Include(employee => employee.Ref_Projects)
+                        .ThenInclude(x => x.Ref_Project)
                         .Where(employee => employee.IsDeleted != 1));
 
             }

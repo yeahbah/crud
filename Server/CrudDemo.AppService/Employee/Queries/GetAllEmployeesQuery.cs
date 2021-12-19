@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -14,12 +15,12 @@ public record GetAllEmployeesQuery : IRequest<IEnumerable<EmployeeReadDto>>
         
 }
 
-public class GetAllEmployeessQueryHandler : IRequestHandler<GetAllEmployeesQuery, IEnumerable<EmployeeReadDto>>
+public class GetAllEmployeesQueryHandler : IRequestHandler<GetAllEmployeesQuery, IEnumerable<EmployeeReadDto>>
 {
     private readonly ICrudDataService crudDataService;
     private readonly IMapper mapper;
 
-    public GetAllEmployeessQueryHandler(ICrudDataService crudDataService, IMapper mapper)
+    public GetAllEmployeesQueryHandler(ICrudDataService crudDataService, IMapper mapper)
     {
         this.crudDataService = crudDataService;
         this.mapper = mapper;
@@ -31,6 +32,7 @@ public class GetAllEmployeessQueryHandler : IRequestHandler<GetAllEmployeesQuery
             .All()
             .GetAwaiter()
             .GetResult()
+            .Where(employee => employee.LastName != "System")
             .ToListAsync(cancellationToken);
         return this.mapper.Map<IEnumerable<EmployeeReadDto>>(result);
     }
