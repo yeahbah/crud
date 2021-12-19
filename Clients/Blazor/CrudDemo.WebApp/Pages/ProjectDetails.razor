@@ -1,0 +1,12 @@
+﻿@page "/project/{ProjectId}"
+
+<PageTitle>Project Details</PageTitle>
+
+<h1 class="tm-hero-title">Project Detials</h1>
+
+<p class="tm-hero-subtitle">You are viewing @ProjectId</p>
+
+@code {
+    [Parameter]
+    public string? ProjectId { get; set; }
+}
