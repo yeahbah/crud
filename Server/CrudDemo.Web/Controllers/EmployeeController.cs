@@ -6,6 +6,7 @@ using CrudDemo.App.Employee.Commands;
 using CrudDemo.App.Employee.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace CrudDemo.Controllers
 {
@@ -48,6 +49,14 @@ namespace CrudDemo.Controllers
         public async Task<IActionResult> DeleteEmployee(Guid id, CancellationToken cancellationToken)
         {
             await this.mediator.Send(new DeleteEmployeeCommand(id), cancellationToken);
+            return NoContent();
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateEmployee([FromBody] EmployeeUpdateDto employee,
+            CancellationToken cancellationToken)
+        {
+            await this.mediator.Send(new UpdateEmployeeCommand(employee), cancellationToken);
             return NoContent();
         }
     }
