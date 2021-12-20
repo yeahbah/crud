@@ -1,14 +1,133 @@
 ﻿@page "/editemployee/{EmployeeId}"
 
+@inject HttpClient http
+@inject IConfiguration configuration
+@inject NavigationManager navManager
+@using CrudDemo.WebApp.Models
+@using System.ComponentModel.DataAnnotations
+@using System.Text.RegularExpressions
+
+
 <PageTitle>Edit Talent Information</PageTitle>
 
 <h1 class="tm-hero-title">Edit Talent Information</h1>
 
-<p class="tm-hero-subtitle">You are editing @EmployeeId</p>
+@if (Employee == null)
+{
+    <p><em>Loading...</em></p>
+}
+else 
+{
+    <p class="tm-hero-subtitle">You are editing @Employee?.Name</p>
+    
+    <center>
+<div style="max-width: 400px">
+    <EditForm Model="@model" OnValidSubmit="OnValidSubmit">
+        <DataAnnotationsValidator />        
+        <MudCard>
+            <MudCardContent>
+                
+                    <MudTextField T="string" 
+                        Label="First Name" Required="true" 
+                        RequiredError="FirstName is required"
+                        HelperText="Enter first name"
+                        @bind-Value="model.FirstName"
+                        For="@( () => model.FirstName )"/>
+
+                    <MudTextField T="string" 
+                        Label="Last Name" 
+                        Required="true" 
+                        RequiredError="LastName is required" 
+                        HelperText="Enter last name"
+                        @bind-Value="model.LastName"
+                        For="@( () => model.LastName )"/>
+
+                    <MudTextField T="string" 
+                        Label="Email" 
+                        HelperText="Enter a valid email address"
+                        @bind-Value="model.Email"
+                        For="@(() => model.Email)"/>
+
+                    <MudTextField T="string" 
+                        Label="Phone" 
+                        HelperText="Enter a valid phone number"
+                        @bind-Value="model.PhoneNumber"
+                        For="@(() => model.PhoneNumber)"/>
+
+                    <MudTextField T="Nullable<DateTime>"
+                        Label="Birth Date"
+                        HelperText="Enter date of birth"
+                        @bind-Value="model.BirthDate" 
+                        For="@(() => model.BirthDate)" />
 
 
+                    <MudTextField T="string" 
+                        Label="Department Code"
+                        HelperText="Enter the department code"
+                        @bind-Value="model.DepartmentCode"
+                        For="@(() => model.DepartmentCode)"/>
+                
+            </MudCardContent>
+        
+        </MudCard>
+        <MudPaper Class="pa-4 justify-center my-4 mud-text-align-center">
+                @*<MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="goBack">Back</MudButton>*@
+                <MudButton Variant="Variant.Filled" ButtonType="ButtonType.Submit" Color="Color.Primary" >Save</MudButton>
+        </MudPaper>
+        <MudExpansionPanels>
+            <MudExpansionPanel Text="@($"Show Errors ({errors.Length})")">
+                @foreach (var error in errors)
+                {
+                    <MudText Color="@Color.Error">@error</MudText>
+                }
+            </MudExpansionPanel>
+        </MudExpansionPanels>
+    </EditForm>
+</div>
+</center>
+}
 
-@code {
+@code
+{
     [Parameter]
     public string? EmployeeId { get; set; }
+
+    public EmployeeModel? Employee { get; set; }
+
+    bool success;
+    string[] errors = {};
+    //MudForm form;
+
+    UpdateEmployeeModel model = new UpdateEmployeeModel();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Employee = await this.http.GetFromJsonAsync<EmployeeModel>($"{@configuration["ApiBaseUrl"]}/employee/{EmployeeId}");
+        if (Employee == null) return;
+
+        model.EmployeeId = Employee.EmployeeId;
+        model.FirstName = Employee.FirstName;
+        model.LastName = Employee.LastName;
+        model.BirthDate = Employee.BirthDate;
+        model.DepartmentCode = Employee.DepartmentCode;
+        model.PhoneNumber = Employee.PhoneNumber;
+        model.Email = Employee.Email;
+    }
+
+    private async Task OnValidSubmit(EditContext context)
+    {
+        success = true;
+        StateHasChanged();
+
+        var uri = configuration["ApiBaseUrl"] + @"/employee";
+        var response = await http.PutAsJsonAsync(uri, model);
+        if (response.IsSuccessStatusCode)
+        {
+            navManager.NavigateTo(navManager.BaseUri +"employees");
+        }
+        else
+        {
+            Console.WriteLine(response.ReasonPhrase);
+        }
+    }
 }

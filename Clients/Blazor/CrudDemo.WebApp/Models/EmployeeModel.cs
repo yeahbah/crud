@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CrudDemo.WebApp.Models;
+﻿namespace CrudDemo.WebApp.Models;
 
 public record EmployeeModel
 {
@@ -17,7 +11,7 @@ public record EmployeeModel
     public string? PhoneNumber { get; init; }
     public string? DepartmentCode { get; init; }
     public string? DepartmentName { get; init; }
-    public DateTime BirthDate { get; init; }
+    public DateTime? BirthDate { get; init; }
     public string? Name => FirstName + " " + LastName;
-    public EmployeeProject[] Projects { get; init; }
+    public EmployeeProject[]? Projects { get; init; }
 }
