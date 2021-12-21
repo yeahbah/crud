@@ -92,10 +92,10 @@ else
     [Parameter]
     public string? EmployeeId { get; set; }
 
-    public EmployeeModel? Employee { get; set; }
+    private EmployeeModel? Employee { get; set; }
 
     bool success;
-    string[] errors = {};
+    readonly string[] errors = {};
     //MudForm form;
 
     UpdateEmployeeModel model = new UpdateEmployeeModel();

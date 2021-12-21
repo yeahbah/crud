@@ -1,13 +1,40 @@
 ﻿@page "/confirmdelete/{EmployeeId}"
+@using CrudDemo.WebApp.Models
+
+@inject HttpClient http
+@inject NavigationManager navManager
+@inject IConfiguration configuration
 
 <PageTitle>Confirm Delete</PageTitle>
 
 <h1 class="tm-hero-title">Are you sure you want to delete this talented person?</h1>
 
-<p class="tm-hero-subtitle">You are deleting @EmployeeId</p>
+<p class="tm-hero-subtitle">You are deleting @Employee.Name</p>
+
+<center>
+    <div style="max-width: 400px">
+        <MudPaper Class="pa-4 justify-center my-4 mud-text-align-center">
+            <MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="GoBackHome">No</MudButton>
+            <MudButton Variant="Variant.Filled" ButtonType="ButtonType.Submit" Color="Color.Primary">Yes</MudButton>
+        </MudPaper>
+    </div>
+</center>
 
 @code {
     [Parameter]
     public string? EmployeeId { get; set; }
+
+    private EmployeeModel Employee { get; set; }
+
+    private Task GoBackHome(MouseEventArgs args)
+    {
+        navManager.NavigateTo(navManager.BaseUri);
+        return Task.CompletedTask;
+    }
+    
+    protected override async Task OnInitializedAsync()
+    {
+        Employee = await this.http.GetFromJsonAsync<EmployeeModel>($"{@configuration["ApiBaseUrl"]}/employee/{EmployeeId}");
+    }
 
 }
