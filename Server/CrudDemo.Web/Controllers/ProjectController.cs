@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.FileProviders;
 
 namespace CrudDemo.Web.Controllers
 {
@@ -50,6 +51,13 @@ namespace CrudDemo.Web.Controllers
         public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
         {
             var result = await this.mediator.Send(new DeleteProjectCommand(id), cancellationToken);
+            return NoContent();
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> Put([FromBody]ProjectUpdateDto projectUpdateDto, CancellationToken cancellationToken)
+        {
+            var result = await this.mediator.Send(new UpdateProjectCommand(projectUpdateDto), cancellationToken);
             return NoContent();
         }
     }

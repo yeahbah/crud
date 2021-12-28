@@ -8,12 +8,12 @@ using MediatR;
 
 namespace CrudDemo.App.Employee.Commands;
  
-public record UpdateEmployeeCommand(EmployeeUpdateDto EmployeeUpdateDto) : IRequest
+public record UpdateEmployeeCommand(EmployeeUpdateDto EmployeeUpdateDto) : ICommand, IRequest<Unit>
 {
     
 }
 
-public class EmployeeUpdateCommandHandler : IRequestHandler<UpdateEmployeeCommand>
+public class EmployeeUpdateCommandHandler : IRequestHandler<UpdateEmployeeCommand, Unit>
 {
     private readonly ICrudDataService crudDataService;
     private readonly IMapper mapper;
@@ -21,7 +21,7 @@ public class EmployeeUpdateCommandHandler : IRequestHandler<UpdateEmployeeComman
     public EmployeeUpdateCommandHandler(ICrudDataService crudDataService, IMapper mapper)
     {
         this.crudDataService = crudDataService;
-        this.mapper = mapper;
+        this.mapper = mapper;   
     }
     
     public async Task<Unit> Handle(UpdateEmployeeCommand request, CancellationToken cancellationToken)

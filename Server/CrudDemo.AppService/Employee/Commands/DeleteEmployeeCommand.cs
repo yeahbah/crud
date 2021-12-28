@@ -6,7 +6,7 @@ using MediatR;
 
 namespace CrudDemo.App.Employee.Commands;
 
-public record DeleteEmployeeCommand(Guid Id) : IRequest;
+public record DeleteEmployeeCommand(Guid Id) : ICommand, IRequest;
 
 public class DeleteEmployeeCommandHandler : IRequestHandler<DeleteEmployeeCommand>
 {

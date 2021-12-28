@@ -4,13 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using CrudDemo.App.Employee.Commands;
 using ValidationException = CrudDemo.App.Exceptions.ValidationException;
 
 namespace CrudDemo.App.PipelineBehaviors;
 
 public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
-    where TResponse : class
-    where TRequest : IRequest<TResponse>
+    //where TResponse : class
+    where TRequest : ICommand
 {
     private readonly IEnumerable<IValidator<TRequest>> validators;
 

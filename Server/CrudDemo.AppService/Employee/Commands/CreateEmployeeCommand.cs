@@ -8,7 +8,7 @@ using CrudDemo.Data.Models;
 
 namespace CrudDemo.App.Employee.Commands;
 
-public record CreateEmployeeCommand(EmployeeCreateDto EmployeeCreateDto) : IRequest<EmployeeReadDto>
+public record CreateEmployeeCommand(EmployeeCreateDto EmployeeCreateDto) : ICommand, IRequest<EmployeeReadDto>
 {
 
 }
