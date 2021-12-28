@@ -7,82 +7,31 @@
 
 <h1 class="tm-hero-title">Our Projects</h1>
 
-@*<p class="tm-hero-subtitle">These are our awesome projects!</p>*@
-
 @if (projects == null)
 {
     <p><em>Loading...</em></p>
 }
 else
 {
-@*    <div class="container-fluid">
-<div class="row-fluid">
-<div class="span12">
-            <div class="carousel slide" id="myCarousel">
-                <div class="carousel-inner">
-                    <div class="item active">
+    <p class="tm-hero-subtitle">These are our awesome projects!</p>
+    <MudCarousel ItemsSource="@projects" ShowArrows="true" ShowDelimiters="true" AutoCycle="true" Style="height:500px;">
+        <ItemTemplate>
+            <div class="d-flex flex-column flex-column justify-center" style="height:100%; padding:50px">
+                <MudText Align="@Align.Center" Class="mx-auto">
+                    <h2>@context.Name</h2>
+                </MudText>                
+                <MudText>
+                    @context.Description
+                </MudText>
+                <br />
+                <center><MudButton Color="Color.Primary" Class="ma-2" Variant="Variant.Filled" Style="width:200px">Click for more...</MudButton></center>
                 
-                            <ul class="thumbnails">
-                                @foreach (var project in projects)
-                                {
-                                    <li class="span3">
-                                    <div class="thumbnail">
-                                        <a href="#"><img src="img/gallery-tn-05.jpg"></a>
-                                    </div>
-                                    <div class="caption">
-                                        <h4>@project.Name</h4>
-                				        <p>Nullam Condimentum Nibh Etiam Sem</p>
-                                        <a class="btn btn-mini btn-primary" href="#">» Read More</a>
-                                    </div>
-                                </li>
-                            
-                                }
-                        
-                            </ul>
-                      </div><!-- /Slide1 -->  
-                </div>
-        
-                <div class="control-box">                            
-                    <a data-slide="prev" href="#myCarousel" class="carousel-control left">‹</a>
-                    <a data-slide="next" href="#myCarousel" class="carousel-control right">›</a>
-                </div><!-- /.control-box -->   
-                              
-            </div><!-- /#myCarousel -->
-        
-        </div><!-- /.span12 -->          
-        </div><!-- /.row --> 
-    </div><!-- /.container -->*@
-
-
-
-    @*<div class="tm-section-pad-top">*@
-      <div id="container" class="container tm-container-gallery">
-        
-        <div class="row">
-            <div class="col-12">
-                <div class="mx-auto tm-gallery-container">
-                    <div class="grid tm-gallery">
-                        @foreach (var project in projects)
-                        {
-                            <a href="img/gallery-img-01.jpg">
-                                <figure class="effect-honey tm-gallery-item">
-                                    <img src="img/gallery-tn-05.jpg" alt="Image 1" class="img-fluid">
-                                    <figcaption>
-                                        <h2>@project.Name</h2>
-                                    </figcaption>
-                                </figure>
-                            </a>
-                        }
-                     
-                    </div>
-                </div>                
-            </div>        
-          </div>
-      </div>
-    @*</div>*@
-
-    
-  
+                @*<MudLink Href="#" Class="link-primary">Click for more...</MudLink>*@
+            </div>
+        </ItemTemplate>
+    </MudCarousel>
+    <br >
+    <MudButton Color="Color.Primary" Class="ma-2" Variant="Variant.Filled">Add a project</MudButton>                                
 }
 
 
