@@ -51,7 +51,7 @@ namespace CrudDemo.Data.Services.Internal
             try
             {
                 var existingProject = await dbSet
-                    .FirstOrDefaultAsync(x => x.ProjectId == entity.ProjectId && x.IsDeleted != 1);
+                    .FirstOrDefaultAsync(x => x.ProjectId == entity.ProjectId && x.IsDeleted != 1, cancellationToken);
 
                 if (existingProject == null)
                     return await Add(entity, cancellationToken);

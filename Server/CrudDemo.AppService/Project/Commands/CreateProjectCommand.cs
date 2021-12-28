@@ -4,12 +4,14 @@ using CrudDemo.Data.Models;
 using CrudDemo.Data.Services;
 using MediatR;
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using CrudDemo.App.Employee.Commands;
 
 namespace CrudDemo.App.Project.Commands;
 
-public record CreateProjectCommand(ProjectCreateDto ProjectCreateDto) : IRequest<ProjectReadDto>
+public record CreateProjectCommand(ProjectCreateDto ProjectCreateDto) : ICommand, IRequest<ProjectReadDto>
 {
         
 }
@@ -27,9 +29,12 @@ public class CreateProjectCommandHandler : IRequestHandler<CreateProjectCommand,
 
     public async Task<ProjectReadDto> Handle(CreateProjectCommand request, CancellationToken cancellationToken)
     {
+        var createdBy = (await this.crudDataService.Employee.All())
+            .Single(e => e.FirstName == "System");
+        
         var newProject = this.mapper.Map<ProjectEntity>(request.ProjectCreateDto);
         newProject.CreatedTimestamp = DateTime.Now;
-        newProject.CreatedByEmployeeId = new Guid("cd765367-1005-4e7a-55b1-08d9b12e39b9");
+        newProject.CreatedByEmployeeId = createdBy.EmployeeId;
 
         if (!(await this.crudDataService.Project.Add(newProject, cancellationToken)))
             throw new Exception("Unable to create new project");

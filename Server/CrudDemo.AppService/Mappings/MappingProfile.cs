@@ -20,8 +20,9 @@ public class MappingProfile : Profile
             .ForMember(x => x.ProjectName, opt => opt.MapFrom(src => src.Ref_Project.Name));
         
         CreateMap<ProjectCreateDto, ProjectEntity>();
+        CreateMap<ProjectUpdateDto, ProjectEntity>();        
         CreateMap<ProjectEntity, ProjectReadDto>()
             .ForMember(x => x.CreatedByEmployeeName, opt => opt.MapFrom(src => src.Ref_CreatedByEmployee.FirstName + " " + src.Ref_CreatedByEmployee.LastName));
-
+        
     }
 }

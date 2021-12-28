@@ -3,10 +3,11 @@ using MediatR;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using CrudDemo.App.Employee.Commands;
 
 namespace CrudDemo.App.Project.Commands;
 
-public record DeleteProjectCommand(Guid Id) : IRequest;
+public record DeleteProjectCommand(Guid Id) : ICommand, IRequest;
    
 public class DeleteProjectCommandHandler : IRequestHandler<DeleteProjectCommand>
 {

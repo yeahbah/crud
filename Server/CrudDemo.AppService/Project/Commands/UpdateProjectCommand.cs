@@ -9,7 +9,7 @@ using MediatR;
 
 namespace CrudDemo.App.Project.Commands;
 
-public record UpdateProjectCommand(ProjectUpdateDto ProjectDto) : IRequest
+public record UpdateProjectCommand(ProjectUpdateDto ProjectDto) : ICommand, IRequest
 {
     
 }
