@@ -27,6 +27,7 @@ namespace CrudDemo.Data.Services.Internal
                 return Task.FromResult(
                     this.dbContext.Projects
                         .AsNoTracking()
+                        .TagWith("Get all projects")
                         .Include(project => project.Ref_CreatedByEmployee)
                         .Include(project => project.Ref_ManyEmployees)
                         .ThenInclude(x => x.Ref_Employee)
@@ -43,7 +44,10 @@ namespace CrudDemo.Data.Services.Internal
         {
             return await this.dbContext.Projects
                 .AsNoTracking()
+                .TagWith($"Get project -> {id}")
                 .Include(project => project.Ref_CreatedByEmployee)
+                .Include(project => project.Ref_ManyEmployees)
+                .ThenInclude(project => project.Ref_Employee)
                 .FirstOrDefaultAsync(project => project.ProjectId == id && project.IsDeleted != 1, cancellationToken);
 
         }

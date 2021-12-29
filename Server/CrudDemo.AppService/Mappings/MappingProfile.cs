@@ -24,7 +24,8 @@ public class MappingProfile : Profile
         
         CreateMap<EmployeeProjectEntity, EmployeeProjectReadDto>()
             .ForMember(x => x.ProjectName, opt => opt.MapFrom(src => src.Ref_Project.Name))
-            .ForMember(x => x.EmployeeName, opt => opt.MapFrom(src => $"{src.Ref_Employee.FirstName} {src.Ref_Employee.LastName}"));
+            .ForMember(x => x.EmployeeFirstName, opt => opt.MapFrom(src => src.Ref_Employee.FirstName))
+            .ForMember(x => x.EmployeeLastName, opt => opt.MapFrom(src => src.Ref_Employee.LastName));
         
     }
 }

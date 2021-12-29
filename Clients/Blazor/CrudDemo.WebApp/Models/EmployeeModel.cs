@@ -2,8 +2,6 @@
 
 public record EmployeeModel
 {
-    public record EmployeeProject (Guid EmployeeId, Guid ProjectId, string ProjectName);
-
     public Guid EmployeeId { get; init; }
     public string? FirstName { get; init; }
     public string? LastName { get; init; }

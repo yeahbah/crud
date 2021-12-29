@@ -1,12 +1,45 @@
 ﻿@page "/project/{ProjectId}"
+@inject IConfiguration configuration
+@inject HttpClient http
 
-<PageTitle>Project Details</PageTitle>
+@using CrudDemo.WebApp.Models
 
-<h1 class="tm-hero-title">Project Detials</h1>
+    <PageTitle>@Project?.Name</PageTitle>
 
-<p class="tm-hero-subtitle">You are viewing @ProjectId</p>
+@if (Project == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+
+
+    <h1 class="tm-hero-title">@Project.Name</h1>
+
+    <p class="tm-hero-subtitle"></p>
+    <p>@Project?.Description</p>
+
+    @if (Project?.Employees?.Length > 0)
+    {
+        <h4 class="tm-hero-subtitle">Talents in this project:</h4>
+        @foreach (var employee in Project.Employees)
+        {
+            <MudAvatar Image=@($"/img/avatar-{employee.EmployeeLastName}.jpg") Size="Size.Large"/> <MudText>@(employee.EmployeeFirstName +" "+ employee.EmployeeLastName)</MudText>
+            <br />
+        }
+
+    }
+}
+
 
 @code {
     [Parameter]
     public string? ProjectId { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Project = await this.http.GetFromJsonAsync<ProjectModel>($"{this.configuration["ApiBaseUrl"]}/Project/{ProjectId}");
+    }
+
+    public ProjectModel? Project { get; set; }
 }

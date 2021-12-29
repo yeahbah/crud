@@ -1,0 +1,56 @@
+﻿@inject NavigationManager navManager
+@inject IConfiguration configuration
+@using CrudDemo.WebApp.Models
+
+
+<MudCard>
+    <MudCardHeader>
+        <CardHeaderAvatar>
+            <MudAvatar Image=@AvatarImage Size="Size.Large"/>
+        </CardHeaderAvatar>
+        <CardHeaderContent>                        
+            <MudText>@employee.Name</MudText>
+            <MudText Typo="Typo.body2">Department: @employee.DepartmentName</MudText>
+        </CardHeaderContent>                            
+    </MudCardHeader>
+    <MudCardContent>
+                            
+        <MudText Typo="Typo.body1" >                                
+            <span class="material-icons">rocket_launch</span> <span style="font-weight:bold">Projects</span>
+        </MudText>  
+        @foreach(var project in employee.Projects)
+        {                                
+            <MudText Typo="Typo.body2">
+                <a href="project/@project.ProjectId" > @project.ProjectName</a>
+            </MudText>
+        }
+                            
+    </MudCardContent>
+    <MudCardActions   Style="background-color: lightgrey">                        
+        <MudButton Variant="Variant.Text" Color="Color.Primary" OnClick="args => goToEditPage(args, employee.EmployeeId)">Edit</MudButton>
+        <MudButton Variant="Variant.Text" Color="Color.Primary" OnClick="args => goToDeleteConfirmPage(args, employee.EmployeeId)">Delete</MudButton>
+    </MudCardActions>
+</MudCard>
+
+@code {
+    [Parameter]
+    public EmployeeModel employee { get; set; }
+
+    public string AvatarImage => $"/img/avatar-{employee.LastName}.jpg";
+
+    private Task goToEditPage(MouseEventArgs args, Guid employeeId)
+    {        
+        string? page = $"editemployee/{employeeId}";
+        navManager.NavigateTo(navManager.BaseUri + page);
+
+        return Task.CompletedTask;
+    }
+
+    private Task goToDeleteConfirmPage(MouseEventArgs args, Guid EmployeeId)
+    {
+        string? page = $"confirmdelete/{EmployeeId}";
+        navManager.NavigateTo(navManager.BaseUri + page);
+
+        return Task.CompletedTask;
+    }
+}
