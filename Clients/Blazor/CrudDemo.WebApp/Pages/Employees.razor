@@ -71,15 +71,19 @@ else
         employees = await http.GetFromJsonAsync<EmployeeModel[]>($"{@configuration["ApiBaseUrl"]}/Employee");
     }
 
-    private async Task goToEditPage(MouseEventArgs args, Guid EmployeeId)
+    private Task goToEditPage(MouseEventArgs args, Guid EmployeeId)
     {        
         string? page = $"editemployee/{EmployeeId}";
-        navManager.NavigateTo(navManager.BaseUri + page);        
+        navManager.NavigateTo(navManager.BaseUri + page);
+
+        return Task.CompletedTask;
     }
 
-    private async Task goToDeleteConfirmPage(MouseEventArgs args, Guid EmployeeId)
+    private Task goToDeleteConfirmPage(MouseEventArgs args, Guid EmployeeId)
     {
         string? page = $"confirmdelete/{EmployeeId}";
-        navManager.NavigateTo(navManager.BaseUri + page);        
+        navManager.NavigateTo(navManager.BaseUri + page);
+
+        return Task.CompletedTask;
     }
 }

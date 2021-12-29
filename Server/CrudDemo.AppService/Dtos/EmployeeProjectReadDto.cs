@@ -9,4 +9,5 @@ public record EmployeeProjectReadDto
     
     public Guid ProjectId { get; init; }
     public string ProjectName { get; init; }
+    public string EmployeeName { get; init; }
 }

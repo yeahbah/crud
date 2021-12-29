@@ -28,6 +28,8 @@ namespace CrudDemo.Data.Services.Internal
                     this.dbContext.Projects
                         .AsNoTracking()
                         .Include(project => project.Ref_CreatedByEmployee)
+                        .Include(project => project.Ref_ManyEmployees)
+                        .ThenInclude(x => x.Ref_Employee)
                         .Where(project => project.IsDeleted != 1));
             }
             catch (Exception e)

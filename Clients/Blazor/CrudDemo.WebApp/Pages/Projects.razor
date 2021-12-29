@@ -1,6 +1,7 @@
 ﻿@page "/projects"
 @inject HttpClient http
 @inject IConfiguration configuration
+@inject NavigationManager navManager
 @using CrudDemo.WebApp.Models
 
 <PageTitle>Our Projects</PageTitle>
@@ -24,9 +25,8 @@ else
                     @context.Description
                 </MudText>
                 <br />
-                <center><MudButton Color="Color.Primary" Class="ma-2" Variant="Variant.Filled" Style="width:200px">Click for more...</MudButton></center>
-                
-                @*<MudLink Href="#" Class="link-primary">Click for more...</MudLink>*@
+                <center><MudButton Color="Color.Primary" Class="ma-2" Variant="Variant.Filled" Style="width:200px" OnClick="args => goToProjectDetails(args, context.ProjectId)">Click for more...</MudButton></center>
+                                
             </div>
         </ItemTemplate>
     </MudCarousel>
@@ -40,6 +40,14 @@ else
 {
 
     private ProjectModel[]? projects;
+
+    private Task goToProjectDetails(MouseEventArgs args, Guid projectId)
+    {
+        var page = $"project/{projectId}";
+        navManager.NavigateTo(navManager.BaseUri + page);
+        
+        return Task.CompletedTask;
+    }
 
     protected override async Task OnInitializedAsync()
     {

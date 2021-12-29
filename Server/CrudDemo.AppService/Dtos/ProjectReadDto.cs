@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace CrudDemo.App.Dtos;
 
@@ -13,4 +14,6 @@ public record ProjectReadDto
     public Guid CreatedByEmployeeId { get; init; }
 
     public string CreatedByEmployeeName { get; init; }
+    
+    public ICollection<EmployeeProjectReadDto> Employees { get; init; }
 }
