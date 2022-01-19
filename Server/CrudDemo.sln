@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrudDemo.Data", "CrudDemo.D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrudDemo.App", "CrudDemo.AppService\CrudDemo.App.csproj", "{681DFAC3-6275-4FDC-B1B2-AA9CF2B95407}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crud.Security", "Crud.Security\Crud.Security.csproj", "{021F2B91-EA17-48DE-8602-81092E70C938}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{681DFAC3-6275-4FDC-B1B2-AA9CF2B95407}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{681DFAC3-6275-4FDC-B1B2-AA9CF2B95407}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{681DFAC3-6275-4FDC-B1B2-AA9CF2B95407}.Release|Any CPU.Build.0 = Release|Any CPU
+		{021F2B91-EA17-48DE-8602-81092E70C938}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{021F2B91-EA17-48DE-8602-81092E70C938}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{021F2B91-EA17-48DE-8602-81092E70C938}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{021F2B91-EA17-48DE-8602-81092E70C938}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
