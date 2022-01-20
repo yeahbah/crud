@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,10 +24,31 @@ builder.Services.AddCors(options =>
         });
 });
 
+
 builder.Services.AddControllers();
+builder.Services
+    .AddAuthentication(option =>
+    {
+        option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        option.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    })
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = false,
+            ValidIssuer = builder.Configuration["JwtToken:Issuer"],
+            ValidAudience = builder.Configuration["JwtToken:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtToken:SecretKey"]))
+        };
+    });
+
 builder.Services.AddLogging();
 builder.Services.AddTransient<ExceptionHandlingMiddleware>();
 builder.Services.AddAppServices(builder.Configuration);
+
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(swagger =>
@@ -77,8 +101,8 @@ app.UseHttpsRedirection();
 app.UseRouting();
 app.UseCors(cors);
 
-app.UseAuthorization();
 app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllers();
 

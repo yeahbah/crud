@@ -130,8 +130,8 @@ public class AuthenticateController : Controller
             var userRoles = await userManager.GetRolesAsync(user);
             var authClaims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, user.UserName),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                new(ClaimTypes.Name, user.UserName),
+                new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
             
             foreach (var userRole in userRoles)
@@ -139,10 +139,10 @@ public class AuthenticateController : Controller
                 authClaims.Add(new Claim(ClaimTypes.Role, userRole));
             }
             
-            var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:SecretKey"]));
+            var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtToken:SecretKey"]));
             var token = new JwtSecurityToken(
-                issuer: configuration["JWT:ValidIssuer"],
-                audience: configuration["JWT:ValidAudience"],
+                issuer: configuration["JwtToken:Issuer"],
+                audience: configuration["JwtToken:Audience"],
                 expires: DateTime.Now.AddHours(3),
                 claims: authClaims,
                 signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256));

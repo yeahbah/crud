@@ -5,6 +5,7 @@ using CrudDemo.App.Dtos;
 using CrudDemo.App.Employee.Commands;
 using CrudDemo.App.Employee.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,6 +13,7 @@ namespace CrudDemo.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class EmployeeController : ControllerBase
     {
         private readonly IMediator mediator;
