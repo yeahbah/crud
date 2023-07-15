@@ -9,39 +9,27 @@
 
 <h1 class="tm-hero-title">Are you sure you want to delete this talented person?</h1>
 
-@if (Employee == null)
-{
-    <p><em>Loading...</em></p>
+<p class="tm-hero-subtitle">You are deleting @Employee.Name</p>
 
-}
-else
-{
-    <center>
-        <div style="max-width: 400px">
-            <MudPaper Class="pa-4 justify-center my-4 mud-text-align-center">
-                <p>You are deleting @Employee.Name</p>
-                <MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="GoBackHome">No</MudButton>
-                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="DeleteEmployee">Yes</MudButton>
-            </MudPaper>
-        </div>
-    </center>
-}
+<center>
+    <div style="max-width: 400px">
+        <MudPaper Class="pa-4 justify-center my-4 mud-text-align-center">
+            <MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="GoBackHome">No</MudButton>
+            <MudButton Variant="Variant.Filled" ButtonType="ButtonType.Submit" Color="Color.Primary">Yes</MudButton>
+        </MudPaper>
+    </div>
+</center>
 
 @code {
     [Parameter]
     public string? EmployeeId { get; set; }
 
-    private EmployeeModel? Employee { get; set; }
+    private EmployeeModel Employee { get; set; }
 
     private Task GoBackHome(MouseEventArgs args)
     {
-        navManager.NavigateTo(navManager.BaseUri +"employees");
+        navManager.NavigateTo(navManager.BaseUri);
         return Task.CompletedTask;
-    }
-
-    private async Task DeleteEmployee(MouseEventArgs args)
-    {
-        var response = await this.http.DeleteAsync($"{@configuration["ApiBaseUrl"]}/employee/{EmployeeId}");
     }
     
     protected override async Task OnInitializedAsync()

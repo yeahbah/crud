@@ -353,3 +353,6 @@ MigrationBackup/
 .idea/
 
 *appsettings*
+Server/delphi/CrudLife.res
+Server/delphi/CrudLife.identcache
+Server/delphi/CrudLife.dproj.local
