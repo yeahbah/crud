@@ -20,7 +20,8 @@ uses
   EmployeeService in 'Services\EmployeeService.pas',
   DepartmentService in 'Services\DepartmentService.pas',
   Registration in 'Services\Registration.pas',
-  ProjectDto in 'Dto\ProjectDto.pas';
+  ProjectDto in 'Dto\ProjectDto.pas',
+  CreateEmployeeDto in 'Dto\CreateEmployeeDto.pas';
 
 {$R *.res}
 

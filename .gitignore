@@ -356,3 +356,7 @@ MigrationBackup/
 Server/delphi/CrudLife.res
 Server/delphi/CrudLife.identcache
 Server/delphi/CrudLife.dproj.local
+Server/delphi/Services/__recovery/EmployeeService.pas
+Server/delphi/Services/__recovery/__recovery.ini
+Server/delphi/__recovery/EmployeeController.pas
+Server/delphi/__recovery/__recovery.ini

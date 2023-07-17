@@ -7,12 +7,12 @@ uses
   FireDAC.Comp.Client, Spring.Container, EmployeeService, Spring.Container.Common;
 
 type
-  [MVCPath('/api/Employee')]
+  [MVCPath('/api')]
   TEmployeeController = class(TMVCController)
   public
-//    [MVCPath]
-//    [MVCHTTPMethod([httpGET])]
-//    procedure Index;
+    [MVCPath]
+    [MVCHTTPMethod([httpGET])]
+    procedure Index;
 //    [Inject]
 //    fEmployeeService: IEmployeeService;
 
@@ -28,24 +28,24 @@ type
 
   public
 
-    [MVCPath('/')]
+    [MVCPath('/Employee')]
     [MVCHttpMethod([httpGET])]
     procedure GetEmployees();
 
     //Sample CRUD Actions for a "Customer" entity
-    [MVCPath('/($id)')]
+    [MVCPath('/Employee/($id)')]
     [MVCHTTPMethod([httpGET])]
-    procedure GetEmployeeById(id: integer);
+    procedure GetEmployeeById(id: string);
 
-    [MVCPath('/')]
+    [MVCPath('/Employee')]
     [MVCHTTPMethod([httpPOST])]
     procedure CreateEmployee;
 
-    [MVCPath('/($id)')]
+    [MVCPath('/Employee/($id)')]
     [MVCHTTPMethod([httpPUT])]
     procedure UpdateEmployee(id: Integer);
 
-    [MVCPath('/($id)')]
+    [MVCPath('/Employee/($id)')]
     [MVCHTTPMethod([httpDELETE])]
     procedure DeleteEmployee(id: Integer);
 
@@ -56,7 +56,7 @@ implementation
 uses
   System.SysUtils, MVCFramework.Logger, System.StrUtils, Json, CrudLifeDataModule,
   MVCFramework.DataSet.Utils,
-  EmployeeDto,
+  EmployeeDto, CreateEmployeeDto,
   MVCFramework.Serializer.JsonDataObjects;
 
 //type
@@ -93,9 +93,14 @@ begin
 end;
 
 //Sample CRUD Actions for a "Customer" entity
-procedure TEmployeeController.GetEmployeeById(id: integer);
+procedure TEmployeeController.GetEmployeeById(id: string);
 begin
-  //todo: render a list of customers
+  var service := GlobalContainer.Resolve<IEmployeeService>();
+  var result := service.GetEmployeeById(id);
+  if not Assigned(result) then Render(http_status.NotFound);
+
+  Render(result);
+
 end;
 
 procedure TEmployeeController.GetEmployees;
@@ -105,7 +110,7 @@ var
   jsonArray: TJSONArray;
 begin
   var service := GlobalContainer.Resolve<IEmployeeService>();
-  var employeeList := fEmployeeService.GetEmployees();
+  var employeeList := service.GetEmployees();
 
   var serializer := TMVCJsonDataObjectsSerializer.Create;
   var result := serializer.SerializeCollection(employeeList);
@@ -114,9 +119,22 @@ begin
 
 end;
 
+procedure TEmployeeController.Index;
+begin
+  GetEmployees();
+end;
+
 procedure TEmployeeController.CreateEmployee;
 begin
-  //todo: create a new customer
+  var payLoad := Context.Request.BodyAs<TCreateEmployeeDto>();
+  if not Assigned(payLoad) then Render(http_status.BadRequest);
+
+  var service := GlobalContainer.Resolve<IEmployeeService>();
+  var newEmployee := service.AddEmployee(payLoad);
+  if not Assigned(newEmployee) then Render(http_status.InternalServerError);
+
+  Render(http_status.Created, newEmployee);
+
 end;
 
 procedure TEmployeeController.UpdateEmployee(id: Integer);

@@ -108,6 +108,7 @@
         <DCCReference Include="Services\DepartmentService.pas"/>
         <DCCReference Include="Services\Registration.pas"/>
         <DCCReference Include="Dto\ProjectDto.pas"/>
+        <DCCReference Include="Dto\CreateEmployeeDto.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
