@@ -1,9 +1,9 @@
-unit CreateEmployeeDto;
+unit CreateOrUpdateEmployeeDto;
 
 interface
 
 type
-  TCreateEmployeeDto = class
+  TCreateOrUpdateEmployeeDto = class
   private
     fFirstName: string;
     fLastName: string;

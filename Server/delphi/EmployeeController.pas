@@ -32,7 +32,6 @@ type
     [MVCHttpMethod([httpGET])]
     procedure GetEmployees();
 
-    //Sample CRUD Actions for a "Customer" entity
     [MVCPath('/Employee/($id)')]
     [MVCHTTPMethod([httpGET])]
     procedure GetEmployeeById(id: string);
@@ -43,7 +42,7 @@ type
 
     [MVCPath('/Employee/($id)')]
     [MVCHTTPMethod([httpPUT])]
-    procedure UpdateEmployee(id: Integer);
+    procedure UpdateEmployee(id: string);
 
     [MVCPath('/Employee/($id)')]
     [MVCHTTPMethod([httpDELETE])]
@@ -56,8 +55,8 @@ implementation
 uses
   System.SysUtils, MVCFramework.Logger, System.StrUtils, Json, CrudLifeDataModule,
   MVCFramework.DataSet.Utils,
-  EmployeeDto, CreateEmployeeDto,
-  MVCFramework.Serializer.JsonDataObjects;
+  EmployeeDto, CreateOrUpdateEmployeeDto,
+  MVCFramework.Serializer.JsonDataObjects, System.Net.URLClient;
 
 //type
 //  TPerson = class
@@ -112,8 +111,8 @@ begin
   var service := GlobalContainer.Resolve<IEmployeeService>();
   var employeeList := service.GetEmployees();
 
-  var serializer := TMVCJsonDataObjectsSerializer.Create;
-  var result := serializer.SerializeCollection(employeeList);
+  var serializer := TMVCJsonDataObjectsSerializer.Create();
+  var result := serializer.SerializeCollection(employeeList, stDefault);
 
   Render(result);
 
@@ -126,20 +125,29 @@ end;
 
 procedure TEmployeeController.CreateEmployee;
 begin
-  var payLoad := Context.Request.BodyAs<TCreateEmployeeDto>();
+  var payLoad := Context.Request.BodyAs<TCreateOrUpdateEmployeeDto>();
   if not Assigned(payLoad) then Render(http_status.BadRequest);
 
   var service := GlobalContainer.Resolve<IEmployeeService>();
   var newEmployee := service.AddEmployee(payLoad);
   if not Assigned(newEmployee) then Render(http_status.InternalServerError);
 
+  var returnRoute := Context.Request.Headers['Host'];
+  returnRoute := Format(returnRoute + '/api/Employee/%s', [newEmployee.EmployeeId]);
+  Context.Response.SetCustomHeader('Location', returnRoute);
   Render(http_status.Created, newEmployee);
 
 end;
 
-procedure TEmployeeController.UpdateEmployee(id: Integer);
+procedure TEmployeeController.UpdateEmployee(id: string);
 begin
-  //todo: update customer by id
+  var payLoad := Context.Request.BodyAs<TCreateOrUpdateEmployeeDto>();
+  if not Assigned(payLoad) then Render(http_status.BadRequest);
+
+  var service := GlobalContainer.Resolve<IEmployeeService>();
+  service.UpdateEmployee(id, payLoad);
+
+  Render(http_status.NoContent);
 end;
 
 procedure TEmployeeController.DeleteEmployee(id: Integer);

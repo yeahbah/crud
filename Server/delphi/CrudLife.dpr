@@ -21,7 +21,7 @@ uses
   DepartmentService in 'Services\DepartmentService.pas',
   Registration in 'Services\Registration.pas',
   ProjectDto in 'Dto\ProjectDto.pas',
-  CreateEmployeeDto in 'Dto\CreateEmployeeDto.pas';
+  CreateOrUpdateEmployeeDto in 'Dto\CreateOrUpdateEmployeeDto.pas';
 
 {$R *.res}
 

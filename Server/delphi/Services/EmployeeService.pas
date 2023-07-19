@@ -3,7 +3,7 @@ unit EmployeeService;
 interface
 
 uses
-  EmployeeDto, CreateEmployeeDto, FireDAC.Comp.Client, MVCFramework.DataSet.Utils,
+  EmployeeDto, CreateOrUpdateEmployeeDto, FireDAC.Comp.Client, MVCFramework.DataSet.Utils,
   System.Generics.Collections, Data.DB;
 
 type
@@ -11,14 +11,16 @@ type
     ['{53D7C2D3-BAB6-420B-AB21-1F8A791C59CD}']
     function GetEmployees(): TObjectList<TEmployeeDto>;
     function GetEmployeeById(const id: string): TEmployeeDto;
-    function AddEmployee(const dto: TCreateEmployeeDto): TEmployeeDto;
+    function AddEmployee(const dto: TCreateOrUpdateEmployeeDto): TEmployeeDto;
+    function UpdateEmployee(const employeeId: string; const dto: TCreateOrUpdateEmployeeDto): TEmployeeDto;
   end;
 
   TEmployeeService = class(TInterfacedObject, IEmployeeService)
   public
     function GetEmployees(): TObjectList<TEmployeeDto>;
     function GetEmployeeById(const id: string): TEmployeeDto;
-    function AddEmployee(const dto: TCreateEmployeeDto): TEmployeeDto;
+    function AddEmployee(const dto: TCreateOrUpdateEmployeeDto): TEmployeeDto;
+    function UpdateEmployee(const employeeId: string; const dto: TCreateOrUpdateEmployeeDto): TEmployeeDto;
   end;
 
 
@@ -30,7 +32,7 @@ uses
   CrudLifeDataModule, SysUtils;
 
 function TEmployeeService.AddEmployee(
-  const dto: TCreateEmployeeDto): TEmployeeDto;
+  const dto: TCreateOrUpdateEmployeeDto): TEmployeeDto;
 var
   newGuid: TGuid;
 begin
@@ -38,12 +40,12 @@ begin
   try
     connection.ConnectionDefName := 'CrudDemoDb';
 
-    var employeeId := TGuid.NewGuid.ToString().ToLower();
-    var x := connection.ExecSQLScalar('insert into "Employee" ("EmployeeId", "FirstName" , "LastName" , "Email" , "PhoneNumber", "BirthDate" , "DepartmentCode", "IsDeleted")'
+    var newEmployeeId := TGuid.NewGuid.ToString().ToLower();
+    var employeeId := connection.ExecSQLScalar('insert into "Employee" ("EmployeeId", "FirstName" , "LastName" , "Email" , "PhoneNumber", "BirthDate" , "DepartmentCode", "IsDeleted")'
                        + ' values (:employeeId, :firstName, :lastName, :email, :phone, :birthDate, :departmentCode, false) RETURNING CAST("EmployeeId" AS varchar)',
-                       [employeeId, dto.FirstName, dto.LastName, dto.Email, dto.PhoneNumber, dto.BirthDate, dto.DepartmentCode],
+                       [newEmployeeId, dto.FirstName, dto.LastName, dto.Email, dto.PhoneNumber, dto.BirthDate, dto.DepartmentCode],
                        [ftGuid, ftString, ftString, ftString, ftString, ftDate, ftString]);
-    result := GetEmployeeById(x);
+    result := GetEmployeeById(employeeId);
 
   finally
     connection.Free;
@@ -137,6 +139,27 @@ begin
 
   finally
     qry.Free;
+    connection.Free;
+  end;
+end;
+
+function TEmployeeService.UpdateEmployee(const employeeId: string;
+  const dto: TCreateOrUpdateEmployeeDto): TEmployeeDto;
+var
+  connection: TFdConnection;
+begin
+  connection := TFdConnection.Create(nil);
+  try
+    connection.ConnectionDefName := 'CrudDemoDb';
+    connection.ExecSQL('UPDATE "Employee" SET'
+      +' "FirstName" = :firstName, "LastName" = :lastName, "Email" = :email, '
+      +' "PhoneNumber" = :phone, "BirthDate" = :birthDate, "DepartmentCode" = :departmentCode'
+      +' WHERE "EmployeeId" = :employeeId',
+      [dto.FirstName, dto.LastName, dto.Email, dto.PhoneNumber, dto.BirthDate, dto.DepartmentCode],
+      [ftString, ftString, ftString, ftString, ftDate, ftString, ftGuid]);
+
+    result := GetEmployeeById(employeeId);
+  finally
     connection.Free;
   end;
 end;
