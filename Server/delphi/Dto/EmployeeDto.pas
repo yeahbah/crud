@@ -6,6 +6,7 @@ uses
   System.Generics.Collections, MVCFramework.Serializer.JsonDataObjects, MVCFramework.Serializer.Commons;
 
 type
+  [MVCNameCaseAttribute(TMVCNameCase.ncCamelCase)]
   TEmployeeProjectDto = class
   private
     fEmployeeId: string;
@@ -14,14 +15,14 @@ type
     fEmployeeLastName: string;
     fProjectName: string;
   public
-    property eployeeId: string read fEmployeeId write fEmployeeId;
-    property pojectId: string read fProjectId write fProjectId;
-    property eployeeFirstName: string read fEmployeeFirstName write fEmployeeFirstName;
-    property eployeeLastName: string read fEmployeeLastName write fEmployeeLastName;
-    property pojectName: string read fProjectName write fProjectName;
+    property EmployeeId: string read fEmployeeId write fEmployeeId;
+    property ProjectId: string read fProjectId write fProjectId;
+    property EployeeFirstName: string read fEmployeeFirstName write fEmployeeFirstName;
+    property EployeeLastName: string read fEmployeeLastName write fEmployeeLastName;
+    property ProjectName: string read fProjectName write fProjectName;
   end;
 
-//  [MVCNameCaseAttribute(TMVCNameCase.ncCamelCase)] -- slow and unstable
+  [MVCNameCaseAttribute(TMVCNameCase.ncCamelCase)]
   TEmployeeDto = class
   private
     fEmployeeId: string;
@@ -33,14 +34,14 @@ type
     fDepartmentCode: string;
     fProjects: TObjectList<TEmployeeProjectDto>;
   public
-    property employeeId: string read fEmployeeId write fEmployeeId;
-    property firstName: string read fFirstName write fFirstName;
-    property lastName: string  read fLastName write fLastName;
+    property EmployeeId: string read fEmployeeId write fEmployeeId;
+    property FirstName: string read fFirstName write fFirstName;
+    property LastName: string  read fLastName write fLastName;
     property email: string read fEmail write fEmail;
-    property phoneNumber: string read fPhoneNumber write fPhoneNumber;
-    property birthDate: TDate read fBirthDate write fBirthDate;
-    property departmentCode: string read fDepartmentCode write fDepartmentCode;
-    property projects: TObjectList<TEmployeeProjectDto> read fProjects write fProjects;
+    property PhoneNumber: string read fPhoneNumber write fPhoneNumber;
+    property BirthDate: TDate read fBirthDate write fBirthDate;
+    property DepartmentCode: string read fDepartmentCode write fDepartmentCode;
+    property Projects: TObjectList<TEmployeeProjectDto> read fProjects write fProjects;
   end;
 
 

@@ -13,6 +13,7 @@ type
     function GetEmployeeById(const id: string): TEmployeeDto;
     function AddEmployee(const dto: TCreateOrUpdateEmployeeDto): TEmployeeDto;
     function UpdateEmployee(const employeeId: string; const dto: TCreateOrUpdateEmployeeDto): TEmployeeDto;
+    procedure DeleteEmployee(const employeeId: string);
   end;
 
   TEmployeeService = class(TInterfacedObject, IEmployeeService)
@@ -21,6 +22,7 @@ type
     function GetEmployeeById(const id: string): TEmployeeDto;
     function AddEmployee(const dto: TCreateOrUpdateEmployeeDto): TEmployeeDto;
     function UpdateEmployee(const employeeId: string; const dto: TCreateOrUpdateEmployeeDto): TEmployeeDto;
+    procedure DeleteEmployee(const employeeId: string);
   end;
 
 
@@ -33,8 +35,6 @@ uses
 
 function TEmployeeService.AddEmployee(
   const dto: TCreateOrUpdateEmployeeDto): TEmployeeDto;
-var
-  newGuid: TGuid;
 begin
   var connection := TFdConnection.Create(nil);
   try
@@ -47,6 +47,18 @@ begin
                        [ftGuid, ftString, ftString, ftString, ftString, ftDate, ftString]);
     result := GetEmployeeById(employeeId);
 
+  finally
+    connection.Free;
+  end;
+end;
+
+procedure TEmployeeService.DeleteEmployee(const employeeId: string);
+begin
+  var connection := TFdConnection.Create(nil);
+  try
+    connection.ConnectionDefName := 'CrudDemoDb';
+    connection.ExecSQL('delete from "Employee" where "EmployeeId" = :employeeId',
+      [employeeId], [ftString]);
   finally
     connection.Free;
   end;

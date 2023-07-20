@@ -46,7 +46,7 @@ type
 
     [MVCPath('/Employee/($id)')]
     [MVCHTTPMethod([httpDELETE])]
-    procedure DeleteEmployee(id: Integer);
+    procedure DeleteEmployee(id: string);
 
   end;
 
@@ -150,9 +150,11 @@ begin
   Render(http_status.NoContent);
 end;
 
-procedure TEmployeeController.DeleteEmployee(id: Integer);
+procedure TEmployeeController.DeleteEmployee(id: string);
 begin
-  //todo: delete customer by id
+  var service := GlobalContainer.Resolve<IEmployeeService>();
+  service.DeleteEmployee(id);
+  Render(http_status.NoContent);
 end;
 
 

@@ -3,6 +3,7 @@ unit CreateOrUpdateEmployeeDto;
 interface
 
 type
+  [MVCNameCaseAttribute(TMVCNameCase.ncCamelCase)]
   TCreateOrUpdateEmployeeDto = class
   private
     fFirstName: string;
