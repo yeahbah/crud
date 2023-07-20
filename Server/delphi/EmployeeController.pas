@@ -54,8 +54,7 @@ implementation
 
 uses
   System.SysUtils, MVCFramework.Logger, System.StrUtils, Json, CrudLifeDataModule,
-  MVCFramework.DataSet.Utils,
-  EmployeeDto, CreateOrUpdateEmployeeDto,
+  MVCFramework.DataSet.Utils, CreateOrUpdateEmployeeDto, CrudDemoDto,
   MVCFramework.Serializer.JsonDataObjects, System.Net.URLClient;
 
 //type

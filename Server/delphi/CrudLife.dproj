@@ -103,12 +103,12 @@
             <FormType>dfm</FormType>
             <DesignClass>TDataModule</DesignClass>
         </DCCReference>
-        <DCCReference Include="Dto\EmployeeDto.pas"/>
         <DCCReference Include="Services\EmployeeService.pas"/>
         <DCCReference Include="Services\DepartmentService.pas"/>
         <DCCReference Include="Services\Registration.pas"/>
-        <DCCReference Include="Dto\ProjectDto.pas"/>
         <DCCReference Include="Dto\CreateOrUpdateEmployeeDto.pas"/>
+        <DCCReference Include="Services\ProjectService.pas"/>
+        <DCCReference Include="Dto\CrudDemoDto.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

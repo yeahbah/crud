@@ -1,12 +1,21 @@
-unit EmployeeDto;
+unit CrudDemoDto;
 
 interface
 
 uses
-  System.Generics.Collections, MVCFramework.Serializer.JsonDataObjects, MVCFramework.Serializer.Commons;
+  System.Generics.Collections,
+  MVCFramework.Serializer.Commons;
 
 type
   [MVCNameCaseAttribute(TMVCNameCase.ncCamelCase)]
+  TEmployeeProjectDto = class;
+
+  [MVCNameCaseAttribute(TMVCNameCase.ncCamelCase)]
+  TEmployeeDto = class;
+
+  [MVCNameCaseAttribute(TMVCNameCase.ncCamelCase)]
+  TProjectDto = class;
+
   TEmployeeProjectDto = class
   private
     fEmployeeId: string;
@@ -14,15 +23,16 @@ type
     fEmployeeFirstName: string;
     fEmployeeLastName: string;
     fProjectName: string;
+    fEmployees: TObjectList<TEmployeeDto>;
   public
     property EmployeeId: string read fEmployeeId write fEmployeeId;
     property ProjectId: string read fProjectId write fProjectId;
     property EployeeFirstName: string read fEmployeeFirstName write fEmployeeFirstName;
     property EployeeLastName: string read fEmployeeLastName write fEmployeeLastName;
     property ProjectName: string read fProjectName write fProjectName;
+    property Employees: TObjectList<TEmployeeDto> read fEmployees write fEmployees;
   end;
 
-  [MVCNameCaseAttribute(TMVCNameCase.ncCamelCase)]
   TEmployeeDto = class
   private
     fEmployeeId: string;
@@ -44,7 +54,26 @@ type
     property Projects: TObjectList<TEmployeeProjectDto> read fProjects write fProjects;
   end;
 
+  TProjectDto = class
+  private
+    fProjectId: string;
+    fName: string;
+    fDescription: string;
+    fCreatedTimestamp: TDateTime;
+    fEmployeeID: string;
+    fCreatedByEmployeeId: string;
+  public
+    property ProjectId: string read fProjectId write fProjectId;
+    property EmployeeId: string read fEmployeeID write fEmployeeId;
+    property Name: string read fName write fName;
+    property Description: string read fDescription write fDescription;
+    property CreatedTimestamp: TDateTime read fCreatedTimestamp write fCreatedTimestamp;
+    property CreatedByEmployeeId: string read fCreatedByEmployeeId write fCreatedByEmployeeId;
+
+  end;
+
 
 implementation
+
 
 end.

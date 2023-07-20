@@ -16,12 +16,12 @@ uses
   EmployeeController in 'EmployeeController.pas',
   CrudLifeWebApi in 'CrudLifeWebApi.pas' {CrudLifeWebModule: TWebModule},
   CrudLifeDataModule in 'CrudLifeDataModule.pas' {DataModule1: TDataModule},
-  EmployeeDto in 'Dto\EmployeeDto.pas',
   EmployeeService in 'Services\EmployeeService.pas',
   DepartmentService in 'Services\DepartmentService.pas',
   Registration in 'Services\Registration.pas',
-  ProjectDto in 'Dto\ProjectDto.pas',
-  CreateOrUpdateEmployeeDto in 'Dto\CreateOrUpdateEmployeeDto.pas';
+  CreateOrUpdateEmployeeDto in 'Dto\CreateOrUpdateEmployeeDto.pas',
+  ProjectService in 'Services\ProjectService.pas',
+  CrudDemoDto in 'Dto\CrudDemoDto.pas';
 
 {$R *.res}
 
