@@ -23,14 +23,14 @@ type
     fEmployeeFirstName: string;
     fEmployeeLastName: string;
     fProjectName: string;
-    fEmployees: TObjectList<TEmployeeDto>;
+//    fEmployees: TObjectList<TEmployeeDto>;
   public
     property EmployeeId: string read fEmployeeId write fEmployeeId;
     property ProjectId: string read fProjectId write fProjectId;
     property EmployeeFirstName: string read fEmployeeFirstName write fEmployeeFirstName;
     property EmployeeLastName: string read fEmployeeLastName write fEmployeeLastName;
     property ProjectName: string read fProjectName write fProjectName;
-    property Employees: TObjectList<TEmployeeDto> read fEmployees write fEmployees;
+//    property Employees: TObjectList<TEmployeeDto> read fEmployees write fEmployees;
   end;
 
   TEmployeeDto = class

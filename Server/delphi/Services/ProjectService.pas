@@ -33,7 +33,7 @@ begin
   var connection := TFdConnection.Create(nil);
   try
     connection.ConnectionDefName := 'CrudDemoDb';
-    connection.ExecSQL('select * from "Project"', dataset);
+    connection.ExecSQL('select CAST("ProjectId" as varchar) ProjectId, "Name", "Description", "CreatedTimestamp", "IsDeleted", "CreatedByEmployeeId" from "Project" ', dataset);
     result := dataset.AsObjectList<TProjectDto>();
     if result.Count = 0 then Exit;
 
@@ -42,10 +42,10 @@ begin
       var qry := TFdQuery.Create(nil);
       try
         qry.Connection := connection;
-        qry.Sql.Text := 'select CAST(e."EmployeeId" AS varchar), e."FirstName" EmployeeFirstName, e."LastName" EmployeeLastName, e."Email", CAST(p."ProjectId" AS varchar), p."Name" from "Project" p'
+        qry.Sql.Text := 'select CAST(e."EmployeeId" AS varchar), e."FirstName" EmployeeFirstName, e."LastName" EmployeeLastName, e."Email", CAST(p."ProjectId" AS varchar), p."Name" ProjectName from "Project" p'
                       + ' inner join "EmployeeProject" ep on p."ProjectId" = ep."ProjectId"'
                       + ' inner join "Employee" e ON e."EmployeeId" = ep."EmployeeId"'
-                      + ' where ep."ProjectId" = :projectId';
+                      + ' where CAST(ep."ProjectId" AS varchar) = :projectId';
         qry.ParamByName('projectId').AsString := projectDto.ProjectId;
         qry.Open;
         projectDto.Employees := qry.AsObjectList<TEmployeeProjectDto>();
