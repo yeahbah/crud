@@ -27,8 +27,8 @@ type
   public
     property EmployeeId: string read fEmployeeId write fEmployeeId;
     property ProjectId: string read fProjectId write fProjectId;
-    property EployeeFirstName: string read fEmployeeFirstName write fEmployeeFirstName;
-    property EployeeLastName: string read fEmployeeLastName write fEmployeeLastName;
+    property EmployeeFirstName: string read fEmployeeFirstName write fEmployeeFirstName;
+    property EmployeeLastName: string read fEmployeeLastName write fEmployeeLastName;
     property ProjectName: string read fProjectName write fProjectName;
     property Employees: TObjectList<TEmployeeDto> read fEmployees write fEmployees;
   end;
@@ -47,7 +47,7 @@ type
     property EmployeeId: string read fEmployeeId write fEmployeeId;
     property FirstName: string read fFirstName write fFirstName;
     property LastName: string  read fLastName write fLastName;
-    property email: string read fEmail write fEmail;
+    property Email: string read fEmail write fEmail;
     property PhoneNumber: string read fPhoneNumber write fPhoneNumber;
     property BirthDate: TDate read fBirthDate write fBirthDate;
     property DepartmentCode: string read fDepartmentCode write fDepartmentCode;
@@ -60,15 +60,15 @@ type
     fName: string;
     fDescription: string;
     fCreatedTimestamp: TDateTime;
-    fEmployeeID: string;
     fCreatedByEmployeeId: string;
+    fEmployees: TObjectList<TEmployeeProjectDto>;
   public
     property ProjectId: string read fProjectId write fProjectId;
-    property EmployeeId: string read fEmployeeID write fEmployeeId;
     property Name: string read fName write fName;
     property Description: string read fDescription write fDescription;
     property CreatedTimestamp: TDateTime read fCreatedTimestamp write fCreatedTimestamp;
     property CreatedByEmployeeId: string read fCreatedByEmployeeId write fCreatedByEmployeeId;
+    property Employees: TObjectList<TEmployeeProjectDto> read fEmployees write fEmployees;
 
   end;
 

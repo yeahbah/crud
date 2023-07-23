@@ -2,7 +2,6 @@ object CrudLifeWebModule: TCrudLifeWebModule
   OnCreate = WebModuleCreate
   OnDestroy = WebModuleDestroy
   Actions = <>
-  Height = 288
-  Width = 519
-  PixelsPerInch = 120
+  Height = 230
+  Width = 415
 end

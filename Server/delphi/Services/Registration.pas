@@ -10,7 +10,7 @@ procedure RegisterTypes;
 implementation
 
 uses
-  EmployeeService, DepartmentService;
+  EmployeeService, DepartmentService, ProjectService;
 
 procedure RegisterTypes;
 var
@@ -20,6 +20,7 @@ begin
 
   container.RegisterType<IEmployeeService, TEmployeeService>();
   container.RegisterType<IDepartmentService, TDepartmentService>();
+  container.RegisterType<IProjectService, TProjectService>();
 
   container.Build();
 end;

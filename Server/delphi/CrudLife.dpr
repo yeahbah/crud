@@ -21,7 +21,8 @@ uses
   Registration in 'Services\Registration.pas',
   CreateOrUpdateEmployeeDto in 'Dto\CreateOrUpdateEmployeeDto.pas',
   ProjectService in 'Services\ProjectService.pas',
-  CrudDemoDto in 'Dto\CrudDemoDto.pas';
+  CrudDemoDto in 'Dto\CrudDemoDto.pas',
+  ProjectController in 'ProjectController.pas';
 
 {$R *.res}
 

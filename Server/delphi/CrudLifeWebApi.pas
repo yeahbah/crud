@@ -27,7 +27,8 @@ implementation
 
 uses 
   EmployeeController,
-   
+  ProjectController,
+
   System.IOUtils, 
   MVCFramework.Commons, 
   MVCFramework.Middleware.ActiveRecord, 
@@ -67,6 +68,7 @@ begin
       Config[TMVCConfigKey.MaxRequestSize] := IntToStr(TMVCConstants.DEFAULT_MAX_REQUEST_SIZE);
     end);
   FMVC.AddController(TEmployeeController);
+  FMVC.AddController(TProjectController);
 
   
   

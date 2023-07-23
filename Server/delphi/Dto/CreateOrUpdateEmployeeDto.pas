@@ -2,6 +2,9 @@ unit CreateOrUpdateEmployeeDto;
 
 interface
 
+uses
+  MVCFramework.Serializer.Commons;
+
 type
   [MVCNameCaseAttribute(TMVCNameCase.ncCamelCase)]
   TCreateOrUpdateEmployeeDto = class
