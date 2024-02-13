@@ -176,24 +176,16 @@ internal class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<DemoDbCo
     public DemoDbContext CreateDbContext(string[] args)
     {
         var configuration = new ConfigurationBuilder()
-            //.SetBasePath(Directory.GetCurrentDirectory())
-            //.AddJsonFile(Path.Combine(@Directory.GetCurrentDirectory(), "connectionStrings.json"))
-            .AddUserSecrets("1f970d8a-a0df-4b80-880f-0a5881ad2a62")                
+            .AddUserSecrets("1f970d8a-a0df-4b80-880f-0a5881ad2a62")
             .Build();
-        
-        // var dbUser = Environment.GetEnvironmentVariable("SQLUSER");
-        // var dbPasswd = Environment.GetEnvironmentVariable("SQLPASSWD");
+
         var builder = new DbContextOptionsBuilder<DemoDbContext>();
         //builder.UseSqlServer($"Server=tcp:127.0.0.1,1433;Database=CrudDemoDb;Trusted_Connection=true;integrated security=false;User Id={dbUser};password={dbPasswd}");
 
         var connectionString = configuration.GetConnectionString("CrudDemoConn");
         Console.WriteLine(connectionString);
         builder.UseNpgsql(connectionString);
-        //var connectionString = configuration.GetConnectionString("DefaultConnection");
-        //builder.UseNpgsql(connectionString);
 
-
-        //var logger = loggerFactory.CreateLogger(typeof(DemoDbContext));
         return new DemoDbContext(builder.Options);
     }
 }
