@@ -361,3 +361,9 @@ Server/delphi/Services/__recovery/__recovery.ini
 Server/delphi/__recovery/EmployeeController.pas
 Server/delphi/__recovery/__recovery.ini
 Server/delphi/Services/__recovery/ProjectService.pas
+.DS_Store
+Clients/.DS_Store
+Clients/Blazor/CrudDemo.WebApp/.DS_Store
+Clients/Blazor/CrudDemo.WebApp/wwwroot/.DS_Store
+Clients/Blazor/CrudDemo.WebApp/wwwroot/css/.DS_Store
+Server/.DS_Store
