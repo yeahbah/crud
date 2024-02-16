@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Livewire\Counter;
 use App\Livewire\Home;
+use App\Livewire\Project;
+use App\Livewire\ProjectPage;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,3 +20,5 @@ use App\Livewire\Home;
 Route::get('/', Home::class);
 
 Route::get('/counter', Counter::class);
+
+Route::get('/project/{id}', ProjectPage::class);
