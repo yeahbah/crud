@@ -107,13 +107,11 @@
                     @foreach($employees->take(2) as $employee)
                     <div class="col align-center">
                         <div class="image round">
-                            <img src="images/avatar-{{ $employee->last_name }}.jpg" alt="" width="320" height="320" />
+                            <img src="images/avatar-{{ $employee->last_name }}.jpg" alt="" width="200" height="200" />
                         </div>
                         <h3>{{ $employee->first_name }} {{ $employee->last_name }}</h3>
                         <p>
-                            Sed congue elit malesuada nibh, a varius odio
-                            vehicula aliquet. Aliquam consequat, nunc quis
-                            sollicitudin aliquet.
+                            {{ $employee->testimonials->first()->testimonial }}
                         </p>
 
                     </div>
@@ -124,15 +122,13 @@
                 <div class="flex-3 flex" style="margin-top: 100px">
 
                     @foreach($employees->skip(2) as $employee)
-                    <div class="col align-center">
+                    <div class="col align-center" style="margin: 10px">
                         <div class="image round">
-                            <img src="images/avatar-{{ $employee->last_name }}.jpg" alt="" width="320" height="320" />
+                            <img src="images/avatar-{{ $employee->last_name }}.jpg" alt="" width="200" height="200" />
                         </div>
                         <h3>{{ $employee->first_name }} {{ $employee->last_name }}</h3>
                         <p>
-                            Sed congue elit malesuada nibh, a varius odio
-                            vehicula aliquet. Aliquam consequat, nunc quis
-                            sollicitudin aliquet.
+                            {{ $employee->testimonials->first()->testimonial }}
                         </p>
 
                     </div>

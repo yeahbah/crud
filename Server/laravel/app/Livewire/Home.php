@@ -14,11 +14,14 @@ class Home extends Component
 
     public $projects;
     public $employees;
+    public $employeeProjects;
 
     public function render()
     {
         $this->projects = Project::all();
         $this->employees = Employee::where('first_name', '!=', 'System')->get();
+
+
         return view('livewire.home');
     }
 }
