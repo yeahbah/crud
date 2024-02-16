@@ -15,6 +15,31 @@
     <!-- Main -->
     <div id="main">
         <!-- Section -->
+        <section class="wrapper style2">
+            <div class="inner">
+                <div class="flex-2 flex">
+                    <div class="col col2">
+                        <h3>Take your CRUD to the next level!</h3>
+                        <p>
+                            We at CRUD Life are dedicated to Create, Read, Update and Delete
+                            stuff. These actions are the basic of the Internet. Can you imagine
+                            not having the internet? That would be awful. It's not the life
+                            I would want to live!
+                        </p>
+                        <p>
+                            CRUD is life. Start your CRUD Life today! </p>
+                        <a href="#" class="button">Learn More</a>
+                    </div>
+                    <div class="col col1 first">
+                        <div class="image round fit">
+                            <a href="generic.html" class="link"><img src="images/pic02.jpg" alt="" width="320" height="320" /></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section -->
         <section class="wrapper style1">
             <div class="inner">
                 <!-- 2 Columns -->
@@ -66,87 +91,53 @@
                 <!-- </div> -->
             </div>
         </section>
-        <!-- Section -->
-        <section class="wrapper style2">
-            <div class="inner">
-                <div class="flex-2 flex">
-                    <div class="col col2">
-                        <h3>Suspendisse quis massa vel justo</h3>
-                        <p>
-                            Etiam posuere hendrerit arcu, ac blandit nulla.
-                            Sed congue malesuada nibh, a varius odio
-                            vehicula aliquet. Aliquam consequat, nunc quis
-                            sollicitudin aliquet, enim magna cursus auctor
-                            lacinia nunc ex blandit augue. Ut vitae neque
-                            fermentum, luctus elit fermentum, porta augue.
-                            Nullam ultricies, turpis at fermentum iaculis,
-                            nunc justo dictum dui, non aliquet erat nibh non
-                            ex.
-                        </p>
-                        <p>
-                            Sed congue malesuada nibh, a varius odio
-                            vehicula aliquet. Aliquam consequat, nunc quis
-                            sollicitudin aliquet, enim magna cursus auctor
-                            lacinia nunc ex blandit augue. Ut vitae neque
-                            fermentum, luctus elit fermentum, porta augue.
-                            Nullam ultricies, turpis at fermentum iaculis,
-                            nunc justo dictum dui, non aliquet erat nibh non
-                            ex.
-                        </p>
-                        <a href="#" class="button">Learn More</a>
-                    </div>
-                    <div class="col col1 first">
-                        <div class="image round fit">
-                            <a href="generic.html" class="link"><img src="images/pic02.jpg" alt="" width="320" height="320" /></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+
         <!-- Section -->
         <section class="wrapper style1">
             <div class="inner">
                 <header class="align-center">
-                    <h2>Aliquam ipsum purus dolor</h2>
-                    <p>
+                    <h2>CRUD Masters</h2>
+                    <!-- <p>
                         Cras sagittis turpis sit amet est tempus, sit amet
                         consectetur purus tincidunt.
-                    </p>
+                    </p> -->
                 </header>
                 <div class="flex-3 flex">
+
+                    @foreach($employees->take(2) as $employee)
                     <div class="col align-center">
-                        <div class="image round fit">
-                            <img src="images/pic03.jpg" alt="" width="320" height="320" />
+                        <div class="image round">
+                            <img src="images/avatar-{{ $employee->last_name }}.jpg" alt="" width="320" height="320" />
                         </div>
+                        <h3>{{ $employee->first_name }} {{ $employee->last_name }}</h3>
                         <p>
                             Sed congue elit malesuada nibh, a varius odio
                             vehicula aliquet. Aliquam consequat, nunc quis
                             sollicitudin aliquet.
                         </p>
-                        <a href="#" class="button">Learn More</a>
+
                     </div>
+                    @endforeach
+
+                </div>
+
+                <div class="flex-3 flex" style="margin-top: 100px">
+
+                    @foreach($employees->skip(2) as $employee)
                     <div class="col align-center">
-                        <div class="image round fit">
-                            <img src="images/pic05.jpg" alt="" width="320" height="320" />
+                        <div class="image round">
+                            <img src="images/avatar-{{ $employee->last_name }}.jpg" alt="" width="320" height="320" />
                         </div>
+                        <h3>{{ $employee->first_name }} {{ $employee->last_name }}</h3>
                         <p>
                             Sed congue elit malesuada nibh, a varius odio
                             vehicula aliquet. Aliquam consequat, nunc quis
                             sollicitudin aliquet.
                         </p>
-                        <a href="#" class="button">Learn More</a>
+
                     </div>
-                    <div class="col align-center">
-                        <div class="image round fit">
-                            <img src="images/pic04.jpg" alt="" width="320" height="320" />
-                        </div>
-                        <p>
-                            Sed congue elit malesuada nibh, a varius odio
-                            vehicula aliquet. Aliquam consequat, nunc quis
-                            sollicitudin aliquet.
-                        </p>
-                        <a href="#" class="button">Learn More</a>
-                    </div>
+                    @endforeach
+
                 </div>
             </div>
         </section>

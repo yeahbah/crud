@@ -24,9 +24,9 @@
     <!-- Nav -->
     <nav id="menu">
         <ul class="links">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="generic.html">Generic</a></li>
-            <li><a href="elements.html">Elements</a></li>
+            <li><a href="/signin">Sign In</a></li>
+            <li><a href="/contact">Contact Us</a></li>
+            <!-- <li><a href="elements.html">Elements</a></li> -->
         </ul>
     </nav>
 
