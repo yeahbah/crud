@@ -65,14 +65,14 @@
 
                             <h4 style="text-align: center;">{{ $projects->first()->name }}</h4>
                             <p>{{ $projects->first()->description }}</p>
-                            <div style="text-align: center;"><a href="/project/{{ $projects->first()->project_id }}" class="button">Learn More</a></div>
+                            <div style="text-align: center;"><a href="/projects/{{ $projects->first()->project_id }}" class="button">Learn More</a></div>
                         </div>
                         @foreach ($projects->skip(1) as $project)
                         <div class="carousel-item" style="padding-top: 50px">
 
                             <h4 style="text-align: center;">{{ $project->name }}</h4>
                             <p>{{ $project->description }}</p>
-                            <div style="text-align: center;"><a href="/project/{{ $project->project_id }}" class="button">Learn More</a></div>
+                            <div style="text-align: center;"><a href="/projects/{{ $project->project_id }}" class="button">Learn More</a></div>
                         </div>
                         @endforeach
                     </div>

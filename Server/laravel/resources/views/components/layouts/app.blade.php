@@ -26,7 +26,7 @@
         <ul class="links">
             <li><a href="/signin">Sign In</a></li>
             <li><a href="/contact">Contact Us</a></li>
-            <!-- <li><a href="elements.html">Elements</a></li> -->
+            <li><a href="/admin">Admin</a></li>
         </ul>
     </nav>
 
