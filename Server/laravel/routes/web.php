@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\ProjectController;
 use Illuminate\Support\Facades\Route;
 use App\Livewire\Counter;
 use App\Livewire\Home;
@@ -24,7 +25,9 @@ Route::get('/', Home::class);
 
 Route::get('/counter', Counter::class);
 
-Route::get('/projects/{id}', ProjectPage::class);
+// Route::get('/projects/{id}', ProjectPage::class);
+
+Route::resource('projects', ProjectController::class);
 
 Route::resource('employees', EmployeeController::class);
 

@@ -5,10 +5,10 @@
     <div class="inner" style="margin: 50px;">
         <ul class="nav nav-pills">
             <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Employees</a>
+                <a class="nav-link active" aria-current="page" href="/employees">Employees</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Projects</a>
+                <a class="nav-link" href="/projects">Projects</a>
             </li>
         </ul>
         <div style="margin-top: 30px">
